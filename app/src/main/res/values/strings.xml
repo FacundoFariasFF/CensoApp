@@ -1,3 +1,54 @@
 <resources>
     <string name="app_name">CensoApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="censo">Censo</string>
+    <string name="iniciar_censo">Para iniciar el Censo es necesario generar el Código Unico de la Vivienda que le permitirá completar el cuestionario</string>
+    <string name="codigo_unico_vivienda">¿Ya cuenta con el Código único de la vivienda?</string>
+    <string name="datos_persona_generar">Ingrese el número de documento de la persona que stará encargada de completar los datos del hogar y de todos sus integrantes</string>
+    <string name="dni">Número de Documento(DNI):</string>
+    <string name="fecha_nacimiento">Fecha de Nacimiento:</string>
+    <string name="ubicacion">Ubicación geográfica de la vivienda</string>
+    <string name="provincia">Provincia (*)</string>
+    <string name="departamento">Departamento / Partido / Comuna (*)</string>
+    <string name="localidad">Localidad (*)</string>
+    <string name="nombre_calle_ruta">Nombre de calle / ruta / Camino (*)</string>
+    <string name="nro_puerta_km">Puerta n° / km (*)</string>
+    <string name="nro_piso">Piso N°</string>
+    <string name="departamento_pieza">Departamento / Pieza</string>
+    <string name="edificio">Edificio / Monoblock / Tira</string>
+    <string name="entrada">Entrada / Escalera</string>
+    <string name="casa">Casa / Lote</string>
+    <string name="campos_obligatorios">Campos obligatorios(*).</string>
+
+    <string-array name="provincias_array">
+        <item> </item>
+        <item>Buenos Aires</item>
+        <item>Buenos Aires Capital</item>
+        <item>Catamarca</item>
+        <item>Chaco</item>
+        <item>Chubut</item>
+        <item>Cordoba</item>
+        <item>Corrientes</item>
+        <item>Entre Rios</item>
+        <item>Formosa</item>
+        <item>Jujuy</item>
+        <item>La Pampa</item>
+        <item>La Rioja</item>
+        <item>Mendoza</item>
+        <item>Misiones</item>
+        <item>Neuquen</item>
+        <item>Rio Negro</item>
+        <item>Salta</item>
+        <item>San Juan</item>
+        <item>San Luis</item>
+        <item>Santa Cruz</item>
+        <item>Santa Fe</item>
+        <item>Santiago del Estero</item>
+        <item>Tierra del Fuego</item>
+        <item>Tucuman</item>
+    </string-array>
+
+
+
 </resources>

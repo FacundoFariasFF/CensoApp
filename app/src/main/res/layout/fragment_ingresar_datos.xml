@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".FragmentIngresarDatos">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/txt_steptext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="nro paso"
+            android:textSize="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"/>
+        <TextView
+            android:id="@+id/txt_descripciontext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="descripcion"
+            android:textSize="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"/>
+
+        <com.shuhart.stepview.StepView
+            android:id="@+id/step_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            app:sv_animationType="Line"
+            app:sv_doneCircleColor="@color/colorAccent"
+            app:sv_doneCircleRadius="12dp"
+            app:sv_doneStepLineColor="@color/colorAccent"
+            app:sv_doneStepMarkColor="@color/colorPrimary"
+            app:sv_nextStepLineColor="@color/colorAccent"
+            app:sv_nextTextColor="@color/colorAccent"
+            app:sv_selectedCircleColor="@color/colorAccent"
+            app:sv_selectedCircleRadius="12dp"
+            app:sv_selectedStepNumberColor="@color/colorPrimary"
+            app:sv_selectedTextColor="@color/colorAccent"
+            app:sv_stepLineWidth="1dp"
+            app:sv_stepNumberTextSize="12sp"
+            app:sv_stepPadding="4dp"
+            app:sv_stepViewStyle="@style/StepView"/>
+
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_container_view_ingresar_datos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"/>
+
+    </LinearLayout>
+</FrameLayout>
+
