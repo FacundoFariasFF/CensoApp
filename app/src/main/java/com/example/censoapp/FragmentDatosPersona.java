@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 
-public class FragmentDatosVivienda extends Fragment {
+public class FragmentDatosPersona extends Fragment {
 
     View rootView;
 
@@ -23,12 +23,12 @@ public class FragmentDatosVivienda extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragmentDatosVivienda() {
+    public FragmentDatosPersona() {
         // Required empty public constructor
     }
 
-    public static FragmentDatosVivienda newInstance() {
-        FragmentDatosVivienda fragment = new FragmentDatosVivienda();
+    public static FragmentDatosPersona newInstance() {
+        FragmentDatosPersona fragment = new FragmentDatosPersona();
 
         return fragment;
     }
@@ -45,7 +45,7 @@ public class FragmentDatosVivienda extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_datos_vivienda, container, false);
+        rootView = inflater.inflate(R.layout.fragment_datos_persona, container, false);
 
         Button btnContinuarGenerar = (Button) rootView.findViewById(R.id.btn_continuar_generar);
         Button btnVolverGenerar = (Button) rootView.findViewById(R.id.btn_volver_generar);
@@ -57,17 +57,16 @@ public class FragmentDatosVivienda extends Fragment {
         btnContinuarGenerar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Toast.makeText(getContext(),"Continuar",Toast.LENGTH_SHORT).show();
-
-                stepView.go(1,true); // esta instruccion pasa al siguiente paso
-                stepView.done(true); //marcado como hecho
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentDatosPersona.newInstance()).commit();
+                stepView.go(2,true); // esta instruccion pasa al siguiente paso
+                stepView.done(true);
             }
         });
         btnVolverGenerar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //Toast.makeText(getContext(),"Volver",Toast.LENGTH_SHORT).show();
-
+                stepView.go(0,true);
                 stepView.done(false); //marcado como no hecho
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance()).commit();
+                //Toast.makeText(getContext(),"Volver",Toast.LENGTH_SHORT).show();
             }
         });
 

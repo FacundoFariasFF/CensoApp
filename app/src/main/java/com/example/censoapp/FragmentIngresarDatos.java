@@ -18,18 +18,8 @@ import com.shuhart.stepview.StepView;
 public class FragmentIngresarDatos extends Fragment {
 
     View rootView;
-    StepView stepView;
-    TextView stepTexView;
-    TextView descripcionTextView;
+    static StepView stepView;
 
-    int stepIndex =0;
-    String[] stepsTexts={"paso 1","paso 2","paso 3","paso 4",};
-    String[] descripcionTexts = {
-            "primer paso",
-            "Segundo paso",
-            "tercer paso",
-            "cuarto y ultimo paso",
-    };
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -62,19 +52,14 @@ public class FragmentIngresarDatos extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_ingresar_datos, container, false);
 
-
-        stepTexView = rootView.findViewById(R.id.txt_steptext);
-        descripcionTextView = rootView.findViewById(R.id.txt_descripciontext);
         stepView = rootView.findViewById(R.id.step_view);
-
 
         stepView.getState()
                 .animationType(StepView.ANIMATION_ALL)
-                .stepsNumber(4)
+                .stepsNumber(2)
                 .animationDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
                 .commit();
 
-        nextSep();
 
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance()).commit();
 
@@ -82,22 +67,7 @@ public class FragmentIngresarDatos extends Fragment {
         return rootView;
     }
 
-    public void nextSep(){
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                stepIndex++;
 
-                if (stepIndex<stepsTexts.length){
-                stepTexView.setText(stepsTexts[stepIndex]);
-                descripcionTextView.setText(descripcionTexts[stepIndex]);
-                stepView.go(stepIndex,true); // esta instruccion pasa al siguiente paso
-                nextSep();
-                }
-            }
-        }, 2000);
-    }
 
 
 }
