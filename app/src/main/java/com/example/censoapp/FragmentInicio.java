@@ -69,7 +69,7 @@ public class FragmentInicio extends Fragment {
                 // Do something in response to button click
                 CodigoVivienda();
 
-                Toast.makeText(getContext(),"Ingresar",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"Ingresar",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -83,7 +83,7 @@ public class FragmentInicio extends Fragment {
             @Override
             public void continuar(FragmentDialogCodigo dialog) {
 
-                Toast.makeText(getContext(),"continuar ya ingresate el codigo",Toast.LENGTH_SHORT).show();
+               //Toast.makeText(getContext(),"continuar ya ingresate el codigo",Toast.LENGTH_SHORT).show();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view,FragmentIngresarDatos.newInstance()).commit();
             }
             @Override

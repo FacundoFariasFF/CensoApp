@@ -24,7 +24,7 @@ public class Vivienda {
                     int cantBanios, String banio, String desague, String cocinaCombustible,
                     int cantAmbientes, int cantAmbientesDormir, String situacion, String documentacion,
                     String conectividad) {
-        
+
         this.codigo = codigo;
         this.tipo = tipo;
         this.materialPisos = materialPisos;

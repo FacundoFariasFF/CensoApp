@@ -56,12 +56,12 @@ public class FragmentIngresarDatos extends Fragment {
 
         stepView.getState()
                 .animationType(StepView.ANIMATION_ALL)
-                .stepsNumber(2)
+                .stepsNumber(5)
                 .animationDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
                 .commit();
 
 
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance()).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(1)).commit();
 
 
         return rootView;

@@ -26,7 +26,6 @@ public class FragmentGenerarCodigo extends Fragment implements View.OnClickListe
 
     View rootView;
 
-
     Button btnContinuarGenerar, btnVolverGenerar;
     EditText edtextNroDni, edtextFechaNacimiento,edtextDepartamento,edtextLocalidad,edtextNombreCalleRuta,
             edtextNroPuertaKm, edtextNroPiso, edtextDepartamentoPieza, edtextEntrada, edtextCasa;
@@ -127,7 +126,7 @@ public class FragmentGenerarCodigo extends Fragment implements View.OnClickListe
             @Override
             public void continuar(FragmentDialogCodigo dialog) {
 
-                Toast.makeText(getContext(),"continuar ya ingresate el codigo",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"continuar ya ingresate el codigo",Toast.LENGTH_SHORT).show();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view,FragmentInicio.newInstance()).commit();
             }
             @Override

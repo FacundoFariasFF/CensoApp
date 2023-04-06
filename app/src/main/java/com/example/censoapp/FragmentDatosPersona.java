@@ -57,15 +57,15 @@ public class FragmentDatosPersona extends Fragment {
         btnContinuarGenerar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Toast.makeText(getContext(),"Continuar",Toast.LENGTH_SHORT).show();
-                stepView.go(2,true); // esta instruccion pasa al siguiente paso
-                stepView.done(true);
+                //stepView.go(2,true); // esta instruccion pasa al siguiente paso
+                //stepView.done(true);
             }
         });
         btnVolverGenerar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 stepView.go(0,true);
                 stepView.done(false); //marcado como no hecho
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance()).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(16)).commit();
                 //Toast.makeText(getContext(),"Volver",Toast.LENGTH_SHORT).show();
             }
         });

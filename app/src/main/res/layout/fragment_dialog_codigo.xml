@@ -9,7 +9,7 @@
         android:id="@+id/txt_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="aca se muestra o pide el codigo unico de vivienda"
+        android:text="aca si viene de parte de generar codigo se muestra el codigo y si viene de parte del ingreso se pide el codigo unico de vivienda"
         android:textSize="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="20dp"/>
