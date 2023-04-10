@@ -45,10 +45,11 @@
                     android:textSize="30dp" />
                 <Spinner
                     android:id="@+id/spinner_cantidad"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="text"
-                    android:layout_marginHorizontal="50dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="200dp"
                     android:visibility="gone"/>
 
                 <RadioGroup

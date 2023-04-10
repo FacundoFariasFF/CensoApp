@@ -61,7 +61,7 @@ public class FragmentIngresarDatos extends Fragment {
                 .commit();
 
 
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(1)).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(1,FragmentDatosVivienda.respuestas)).commit();
 
 
         return rootView;

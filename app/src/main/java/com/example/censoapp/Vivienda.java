@@ -5,7 +5,7 @@ public class Vivienda {
     String tipo;
     String materialPisos;
     String materialTecho;
-    Boolean revestimiento;
+    String revestimiento;
     String aguaPotable;
     String origenAgua;
     String banioUbicacion;
@@ -20,7 +20,7 @@ public class Vivienda {
     String conectividad;
 
     public Vivienda(String codigo, String tipo, String materialPisos, String materialTecho,
-                    Boolean revestimiento, String aguaPotable, String origenAgua, String banioUbicacion,
+                    String revestimiento, String aguaPotable, String origenAgua, String banioUbicacion,
                     int cantBanios, String banio, String desague, String cocinaCombustible,
                     int cantAmbientes, int cantAmbientesDormir, String situacion, String documentacion,
                     String conectividad) {
@@ -77,11 +77,11 @@ public class Vivienda {
         this.materialTecho = materialTecho;
     }
 
-    public Boolean getRevestimiento() {
+    public String getRevestimiento() {
         return revestimiento;
     }
 
-    public void setRevestimiento(Boolean revestimiento) {
+    public void setRevestimiento(String revestimiento) {
         this.revestimiento = revestimiento;
     }
 

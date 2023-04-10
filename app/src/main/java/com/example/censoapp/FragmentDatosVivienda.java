@@ -30,6 +30,8 @@ import java.util.Locale;
 public class FragmentDatosVivienda extends Fragment {
 
     View rootView;
+
+
     private static String[] opTipoVivienda = {"Casa.", "Rancho.", "Casilla.", "Departamento.",
             "Pieza ocupada en inquilinato.", "Hotel familiar o pensión.",
             "Local no construido para habitación ocupado.", "Vivienda móvil ocupada -Casa rodante.",
@@ -64,7 +66,7 @@ public class FragmentDatosVivienda extends Fragment {
             "Fuera de la vivienda, pero dentro del terreno.", "No tiene.",
     };
     //aca va cantidad de baños que es un spinner
-    private static String[] opCantBanios = {"1.", "2.", "3.","4.","5.","Más de 5."
+    private static String[] opCantBanios = {"1", "2", "3","4","5",
     };
     //
     private static String[] opBanio = {"Inodoro con botón.", "Mochila o cadena.",
@@ -77,11 +79,11 @@ public class FragmentDatosVivienda extends Fragment {
             "Gas en tubo o a granel (zeppelin).", "Gas en garrafa.",
             "Leña o carbón u otro combustible.",
     };
-    private static String[] opCantAmbientes = {"1.", "2.", "3.","4.","5.","6.","7.","8.","9.","10.",
-            "11.","12.","13.","14.","15.","16.","17.","18.","19.","20.","Más de 20."
+    private static String[] opCantAmbientes = {"1", "2", "3","4","5","6","7","8","9","10",
+            "11","12","13","14","15","16","17","18","19","20"
     };
-    private static String[] opCantAmbientesDormir = {"1.", "2.", "3.","4.","5.","6.","7.","8.","9.",
-            "10.", "11.","12.","13.","14.","15.","16.","17.","18.","19.","20.","Más de 20."
+    private static String[] opCantAmbientesDormir = {"1", "2", "3","4","5","6","7","8","9","10",
+            "11","12","13","14","15","16","17","18","19","20"
     };
     private static String[] opConectividad = {"Internet en la vivienda.", "Celular con internet",
             "Computadora, tablet, etcétera, con internet ", "Sin internet en la vivienda."
@@ -91,15 +93,14 @@ public class FragmentDatosVivienda extends Fragment {
             "vacio.",
     };*/
 
-
-
-    RecyclerView recyclerView;
+    //RecyclerView recyclerView;
     List<Vivienda> viviendaList;
-    ViviendaAdapter viviendaAdapter;
+    //ViviendaAdapter viviendaAdapter;
 
+    String[] opciones = new String[0];
+    static String[] respuestas = new String[17];
 
-
-
+    String seleccionado;
     private int paso;
 
 
@@ -107,7 +108,7 @@ public class FragmentDatosVivienda extends Fragment {
         // Required empty public constructor
     }
 
-    public static FragmentDatosVivienda newInstance(int paso) {
+    public static FragmentDatosVivienda newInstance(int paso, String[] respuestas) {
         FragmentDatosVivienda fragment = new FragmentDatosVivienda();
         Bundle args = new Bundle();
         args.putInt("paso", paso);
@@ -131,14 +132,15 @@ public class FragmentDatosVivienda extends Fragment {
 
         Button btnContinuarGenerar = (Button) rootView.findViewById(R.id.btn_continuar_generar);
         Button btnVolverGenerar = (Button) rootView.findViewById(R.id.btn_volver_generar);
-
-        ////
         RadioGroup rgVivienda = (RadioGroup)rootView.findViewById(R.id.radiog_vivienda);
         Spinner spinnerCantidad = (Spinner) rootView.findViewById(R.id.spinner_cantidad);
         TextView txtTitulo= (TextView) rootView.findViewById(R.id.txt_titulo_vivienda);
         TextView txtCantPreguntasVivienda= (TextView) rootView.findViewById(R.id.txt_cant_preguntas_viviendas);
+
+
+        ////
         txtCantPreguntasVivienda.setText("Pregunta sobre la Vivienda "+paso+" de 16");
-        String[] opciones = new String[0];
+
         Boolean radiobuttom = true;
 
         switch (paso){
@@ -197,7 +199,7 @@ public class FragmentDatosVivienda extends Fragment {
             default:;
         }
 
-        if(radiobuttom==false){
+        if(radiobuttom==false){ //si radio radiobuttom es false signific a que la pregunta no tiene opcioines de seleccion
             spinnerCantidad.setVisibility(View.VISIBLE);
             rgVivienda.setVisibility(View.GONE);
             spinnerCantidad.setAdapter(new ArrayAdapter<String>(getActivity(),
@@ -210,16 +212,91 @@ public class FragmentDatosVivienda extends Fragment {
         }
 
 
-       /////
+        //// escucha en el radiogroup
+        rgVivienda.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioSeleccionado;
+                for (int i =0; i < opciones.length; i++){
+                    radioSeleccionado= (RadioButton) rgVivienda.getChildAt(i);
+                    if((radioSeleccionado.getId())==checkedId){
+                        seleccionado = opciones[i];
+                        //Toast.makeText(getContext(),"Seleccionaste la opcion: "+ opciones[i],Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        //// spinner
 
+        spinnerCantidad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String cantidad = (String) spinnerCantidad.getSelectedItem();
+                seleccionado = cantidad;
+                //Toast.makeText(getContext(),"Seleccionaste la opcion: "+ cantidad,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // No seleccionaron nada
+            }
+        });
+
+       ////// botones continuar y volver
         btnContinuarGenerar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //Toast.makeText(getContext(),"Continuar",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"Seleccionaste la opcion: "+ seleccionado,Toast.LENGTH_SHORT).show();
+                switch (paso){
+                    case 1: respuestas[1] = seleccionado;
+                        break;
+                    case 2: respuestas[14] = seleccionado;
+                        break;
+                    case 3: respuestas[15] = seleccionado;
+                        break;
+                    case 4: respuestas[2] = seleccionado;
+                        break;
+                    case 5: respuestas[3] = seleccionado;
+                        break;
+                    case 6: respuestas[4] = seleccionado;
+                        break;
+                    case 7: respuestas[5] = seleccionado;
+                        break;
+                    case 8: respuestas[6] = seleccionado;
+                        break;
+                    case 9: respuestas[7] = seleccionado;
+                        break;
+                    case 10: respuestas[8] = seleccionado;
+                        break;
+                    case 11: respuestas[9] = seleccionado;
+                        break;
+                    case 12: respuestas[10] = seleccionado;
+                        break;
+                    case 13: respuestas[11] = seleccionado;
+                        break;
+                    case 14: respuestas[12] = seleccionado;
+                        break;
+                    case 15: respuestas[13] = seleccionado;
+                        break;
+                    case 16: respuestas[16] = seleccionado;
+                        break;
+                    default:respuestas[0] = "0";
+                }
 
+               // Toast.makeText(getContext(),vivienda.tipo ,Toast.LENGTH_SHORT).show();
                 if(paso<16){
                     getActivity().getSupportFragmentManager().beginTransaction().replace
-                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(paso+1)).commit();
+                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(paso+1,respuestas)).commit();
                 }else {
+                    respuestas[0] = "0";
+                    Vivienda vivienda = new Vivienda(respuestas[0],respuestas[1],respuestas[2],
+                            respuestas[3],respuestas[4],respuestas[5], respuestas[6],respuestas[7],
+                            Integer.parseInt(respuestas[8]),respuestas[9],respuestas[10],
+                            respuestas[11],Integer.parseInt(respuestas[12]),
+                            Integer.parseInt(respuestas[13]),respuestas[14],respuestas[15],respuestas[16]);
+
+                    viviendaList = new ArrayList<>();
+                    viviendaList.add(vivienda);
+
                     stepView.go(1, true); // esta instruccion pasa al siguiente paso
                     stepView.done(true); //marcado como hecho
                     getActivity().getSupportFragmentManager().beginTransaction().replace
@@ -232,16 +309,15 @@ public class FragmentDatosVivienda extends Fragment {
                 //Toast.makeText(getContext(),"Volver",Toast.LENGTH_SHORT).show();
                 if (paso>1){
                     getActivity().getSupportFragmentManager().beginTransaction().replace
-                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(paso-1)).commit();
+                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(paso-1,respuestas)).commit();
                 } else{
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view,FragmentInicio.newInstance()).commit();
                 }
                 //stepView.done(false); //marcado como no hecho
             }
         });
-
-
-
+        //////
+        
         return rootView;
     }
 
@@ -260,7 +336,7 @@ public class FragmentDatosVivienda extends Fragment {
             }
         });
     }
-
+//radio button
     private RadioButton crearRadioButton(String opciones) {
         RadioButton nuevoRadio = new RadioButton(getContext());
         LinearLayout.LayoutParams params = new RadioGroup.LayoutParams(
@@ -271,16 +347,8 @@ public class FragmentDatosVivienda extends Fragment {
         nuevoRadio.setTag(opciones);
         return nuevoRadio;
     }
-/// spiner
-    public void onItemSelected(AdapterView<?> parent, View view,
-                               int pos, long id) {
-        // Se seleccionó un elemento. Puede recuperar el elemento seleccionado usando
-        // parent.getItemAtPosition(pos)
-        //Toast.makeText(getContext(),"seleccionaste"+parent.getItemAtPosition(pos) ,Toast.LENGTH_SHORT).show();
-    }
 
-    public void onNothingSelected(AdapterView<?> parent) {
-        // Otra devolución de llamada de interfaz
-    }
-///
+
+
+
 }
