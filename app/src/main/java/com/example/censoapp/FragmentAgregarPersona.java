@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 
-public class FragmentDatosPersona extends Fragment {
+public class FragmentAgregarPersona extends Fragment {
 
     View rootView;
 
@@ -23,12 +23,12 @@ public class FragmentDatosPersona extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragmentDatosPersona() {
+    public FragmentAgregarPersona() {
         // Required empty public constructor
     }
 
-    public static FragmentDatosPersona newInstance() {
-        FragmentDatosPersona fragment = new FragmentDatosPersona();
+    public static FragmentAgregarPersona newInstance() {
+        FragmentAgregarPersona fragment = new FragmentAgregarPersona();
 
         return fragment;
     }

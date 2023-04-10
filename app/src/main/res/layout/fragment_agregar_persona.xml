@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FragmentAgregarPersona">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/scrollvivienda"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/linearbotones">
+
+            <LinearLayout
+                android:id="@+id/linearlayout_datosvivienda"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_titulo_agregar_persona"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/titulo_agregar_persona"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20dp" />
+                <EditText
+                    android:id="@+id/edtext_cant_personas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:maxLines="1"
+                    android:layout_marginHorizontal="20dp"/>
+
+                <Button
+                    android:id="@+id/btn_confirmar_cantidad_personas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="100dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_weight="1"
+                    android:text="Confirmar"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/txt_nombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nombre completo:"
+                    android:textSize="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="20dp"/>
+                <EditText
+                    android:id="@+id/edtext_nombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:maxLines="1"
+                    android:layout_marginHorizontal="20dp"/>
+                <TextView
+                    android:id="@+id/txt_apellido"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Apellido:"
+                    android:textSize="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="20dp"/>
+                <EditText
+                    android:id="@+id/edtext_apellido"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:maxLines="1"
+                    android:layout_marginHorizontal="20dp"/>
+                <TextView
+                    android:id="@+id/txt_dni"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dni"
+                    android:textSize="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="20dp"/>
+                <EditText
+                    android:id="@+id/edtext_nro_dni"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:maxLines="1"
+                    android:layout_marginHorizontal="20dp"/>
+
+                <Button
+                    android:id="@+id/btn_agregar_persona"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="100dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_weight="1"
+                    android:text="Agregar Persona"
+                    android:textSize="15dp" />
+                <TextView
+                    android:id="@+id/txt_nro_persona"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="persona x de x."
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textSize="15dp" />
+
+
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/linearbotones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_volver_agregar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="100dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_weight="1"
+                        android:text="Volver"
+                        android:textSize="15dp" />
+
+                    <Button
+                        android:id="@+id/btn_continuar_agregar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_weight="2"
+                        android:text="Continuar"
+                        android:textSize="15dp" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>

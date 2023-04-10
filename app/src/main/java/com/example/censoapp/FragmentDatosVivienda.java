@@ -300,7 +300,7 @@ public class FragmentDatosVivienda extends Fragment {
                     stepView.go(1, true); // esta instruccion pasa al siguiente paso
                     stepView.done(true); //marcado como hecho
                     getActivity().getSupportFragmentManager().beginTransaction().replace
-                            (R.id.fragment_container_view_ingresar_datos, FragmentDatosPersona.newInstance()).commit();
+                            (R.id.fragment_container_view_ingresar_datos, FragmentAgregarPersona.newInstance()).commit();
                 }
             }
         });
@@ -317,7 +317,7 @@ public class FragmentDatosVivienda extends Fragment {
             }
         });
         //////
-        
+
         return rootView;
     }
 
