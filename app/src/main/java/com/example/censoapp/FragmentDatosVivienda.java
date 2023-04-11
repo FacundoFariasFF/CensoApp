@@ -130,8 +130,8 @@ public class FragmentDatosVivienda extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_datos_vivienda, container, false);
 
-        Button btnContinuarGenerar = (Button) rootView.findViewById(R.id.btn_continuar_generar);
-        Button btnVolverGenerar = (Button) rootView.findViewById(R.id.btn_volver_generar);
+        Button btnContinuarVivienda = (Button) rootView.findViewById(R.id.btn_continuar_vivienda);
+        Button btnVolverVivienda = (Button) rootView.findViewById(R.id.btn_volver_vivienda);
         RadioGroup rgVivienda = (RadioGroup)rootView.findViewById(R.id.radiog_vivienda);
         Spinner spinnerCantidad = (Spinner) rootView.findViewById(R.id.spinner_cantidad);
         TextView txtTitulo= (TextView) rootView.findViewById(R.id.txt_titulo_vivienda);
@@ -243,7 +243,7 @@ public class FragmentDatosVivienda extends Fragment {
         });
 
        ////// botones continuar y volver
-        btnContinuarGenerar.setOnClickListener(new View.OnClickListener() {
+        btnContinuarVivienda.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Toast.makeText(getContext(),"Seleccionaste la opcion: "+ seleccionado,Toast.LENGTH_SHORT).show();
                 switch (paso){
@@ -304,7 +304,7 @@ public class FragmentDatosVivienda extends Fragment {
                 }
             }
         });
-        btnVolverGenerar.setOnClickListener(new View.OnClickListener() {
+        btnVolverVivienda.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Toast.makeText(getContext(),"Volver",Toast.LENGTH_SHORT).show();
                 if (paso>1){

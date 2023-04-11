@@ -10,14 +10,14 @@
         android:layout_height="match_parent">
 
         <ScrollView
-            android:id="@+id/scrollvivienda"
+            android:id="@+id/scrollagregarpersonas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_above="@+id/linearbotones">
 
             <LinearLayout
-                android:id="@+id/linearlayout_datosvivienda"
+                android:id="@+id/linearlayout_agregarpersonas"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -35,11 +35,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:focusable="false"
                     android:clickable="true"
                     android:maxLines="1"
                     android:layout_marginHorizontal="20dp"/>
-
                 <Button
                     android:id="@+id/btn_confirmar_cantidad_personas"
                     android:layout_width="wrap_content"
@@ -60,16 +58,17 @@
                     android:text="Nombre completo:"
                     android:textSize="15dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginHorizontal="20dp"/>
+                    android:layout_marginHorizontal="20dp"
+                    android:visibility="gone"/>
                 <EditText
                     android:id="@+id/edtext_nombre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:focusable="false"
-                    android:clickable="true"
                     android:maxLines="1"
-                    android:layout_marginHorizontal="20dp"/>
+                    android:clickable="true"
+                    android:layout_marginHorizontal="20dp"
+                    android:visibility="gone"/>
                 <TextView
                     android:id="@+id/txt_apellido"
                     android:layout_width="match_parent"
@@ -77,16 +76,33 @@
                     android:text="Apellido:"
                     android:textSize="15dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginHorizontal="20dp"/>
+                    android:layout_marginHorizontal="20dp"
+                    android:visibility="gone"/>
                 <EditText
                     android:id="@+id/edtext_apellido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:focusable="false"
                     android:clickable="true"
                     android:maxLines="1"
-                    android:layout_marginHorizontal="20dp"/>
+                    android:layout_marginHorizontal="20dp"
+                    android:visibility="gone"/>
+                <TextView
+                    android:id="@+id/txt_sexo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sexo registrado al nacer:"
+                    android:textSize="15dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:visibility="gone"/>
+                <Spinner
+                    android:id="@+id/spinner_sexo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:layout_marginHorizontal="20dp"
+                    android:visibility="gone"/>
                 <TextView
                     android:id="@+id/txt_dni"
                     android:layout_width="match_parent"
@@ -94,37 +110,64 @@
                     android:text="@string/dni"
                     android:textSize="15dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginHorizontal="20dp"/>
+                    android:layout_marginHorizontal="20dp"
+                    android:visibility="gone"/>
                 <EditText
                     android:id="@+id/edtext_nro_dni"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
+                    android:maxLines="1"
+                    android:clickable="true"
+                    android:layout_marginHorizontal="20dp"
+                    android:visibility="gone"/>
+                <TextView
+                    android:id="@+id/txt_fecha_de_nacimiento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fecha_nacimiento"
+                    android:textSize="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:visibility="gone"/>
+
+                <EditText
+                    android:id="@+id/edtext_fecha_nacimiento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
                     android:focusable="false"
                     android:clickable="true"
                     android:maxLines="1"
-                    android:layout_marginHorizontal="20dp"/>
+                    android:layout_marginHorizontal="20dp"
+                    android:visibility="gone"/>
 
-                <Button
-                    android:id="@+id/btn_agregar_persona"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="100dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_weight="1"
-                    android:text="Agregar Persona"
-                    android:textSize="15dp" />
-                <TextView
-                    android:id="@+id/txt_nro_persona"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="persona x de x."
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="10dp"
-                    android:textSize="15dp" />
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/btn_agregar_persona"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="100dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_weight="1"
+                        android:text="Agregar Persona"
+                        android:textSize="15dp" />
+                    <TextView
+                        android:id="@+id/txt_nro_persona"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="viewEnd"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="10dp"
+                        android:textSize="15dp" />
+
+                </LinearLayout>
 
 
             </LinearLayout>
@@ -170,7 +213,8 @@
                         android:layout_marginBottom="20dp"
                         android:layout_weight="2"
                         android:text="Continuar"
-                        android:textSize="15dp" />
+                        android:textSize="15dp"
+                        android:visibility="invisible"/>
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

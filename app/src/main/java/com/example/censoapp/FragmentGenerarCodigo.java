@@ -22,7 +22,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 
-public class FragmentGenerarCodigo extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class FragmentGenerarCodigo extends Fragment implements AdapterView.OnItemSelectedListener {
 
     View rootView;
 
@@ -81,8 +81,6 @@ public class FragmentGenerarCodigo extends Fragment implements View.OnClickListe
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerProvincia.setAdapter(adapter);
 
-        edtextFechaNacimiento = (EditText) rootView.findViewById(R.id.edtext_fecha_nacimiento);
-        edtextFechaNacimiento.setOnClickListener(this);
 
         spinnerProvincia = (Spinner) rootView.findViewById(R.id.spinner_provincia);
         spinnerProvincia.setOnItemSelectedListener(this);
@@ -131,30 +129,6 @@ public class FragmentGenerarCodigo extends Fragment implements View.OnClickListe
             }
             @Override
             public void cancelar(FragmentDialogCodigo dialog) {
-            }
-        });
-    }
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.edtext_fecha_nacimiento:
-                Calendario();
-                break;
-        }
-    }
-    public void Calendario(){
-        FragmentDialogCalendario dialogCalendario= new FragmentDialogCalendario();
-        dialogCalendario.show(getActivity().getSupportFragmentManager(),"dialogo");
-        dialogCalendario.ProcesarRespuestaCalendario(new FragmentDialogCalendario.RespuestasCalendario() {
-            @Override
-            public void ConfirmarCalendario(DialogFragment dialogCalendario, LocalDate fechaseleccionada) {
-                String fechaSelec;
-                DateTimeFormatter formatoBarra = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                fechaSelec = fechaseleccionada.format(formatoBarra);
-                edtextFechaNacimiento.setText(fechaSelec);
-            }
-            @Override
-            public void CancelarCalendario(DialogFragment dialogCalendario) {
             }
         });
     }
