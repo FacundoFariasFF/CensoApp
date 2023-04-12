@@ -97,28 +97,32 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
     };
 
 
-
+    ArrayList<Integer> deshabilitaOpNo = new ArrayList<>();
+    ArrayList<Integer> deshabilitaOpSi = new ArrayList<>();
+    int deshabilita =0;
     EditText edtextFechaPersona;
-    private int paso;
+    private int indicePaso;
+    ArrayList<Integer> pasos = new ArrayList<>();
+    ArrayList<Integer> pasosAux = new ArrayList<>();
     String[] opciones = new String[0];
-    String seleccionado;
+    String seleccionado="";
     String opcionRespuesta =""; // RadioGroupMultiple, RadioGroupBoolean, EditText;
     int canTextView = 1;
     int cantEditTextTexto = 0;
     int cantEditTextNro = 0;
     int cantEditTextFecha = 0;
 
-    List<Integer> deshabilitaOpSi;
-    List<Integer> deshabilitaOpNo;
 
     public FragmentDatosPersona() {
         // Required empty public constructor
     }
 
-    public static FragmentDatosPersona newInstance(int paso) {
+    public static FragmentDatosPersona newInstance(int indicePaso,ArrayList<Integer>pasos,ArrayList<Integer>pasosAux) {
         FragmentDatosPersona fragment = new FragmentDatosPersona();
         Bundle args = new Bundle();
-        args.putInt("paso", paso);
+        args.putInt("indicePaso", indicePaso);
+        args.putIntegerArrayList("pasos", pasos);
+        args.putIntegerArrayList("pasosAux", pasosAux);
         fragment.setArguments(args);
         return fragment;
     }
@@ -127,8 +131,9 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            paso = getArguments().getInt("paso");
-
+            indicePaso = getArguments().getInt("indicePaso");
+            pasos = getArguments().getIntegerArrayList("pasos");
+            pasosAux = getArguments().getIntegerArrayList("pasosAux");
         }
     }
 
@@ -153,12 +158,13 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
         edtextFechaPersona = (EditText) rootView.findViewById(R.id.edtext_fecha_persona);
         edtextFechaPersona.setOnClickListener(this);
 
-        txtCantPreguntasPersona.setText("Pregunta sobre la Persona "+paso+" de x");
+        txtCantPreguntasPersona.setText("Pregunta sobre la Persona "+indicePaso+" de "+(pasos.size()-1));
 
-// tengo que pedir nombre, apellido, dni, fecha nacimeinto, genero
-        // hay que arreglar las vistas de datos que no son radiobutton
+
+
         // validad que pasos saltea o no dependiendo de la pregunta anterior
-        switch (paso){
+        //validar si es mujer o +14 esas cosas
+        switch (pasos.get(indicePaso)){
             case 1: opcionRespuesta="RadioGroupMultiple";
                 opciones=opGenero;
                 txtTitulo.setText("De acuerdo a la identidad de género se considera:");
@@ -193,8 +199,6 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
             case 7:opcionRespuesta="RadioGroupBoolean";
                 opciones=opBoolean;
                 txtTitulo.setText("¿Completó ese nivel?");
-                //si: desahabilita 8
-                //no:habilita 8
                 break;
             case 8: opcionRespuesta="EditText";
                 txtTitulo.setText("¿Cuántos grados o años aprobó en ese nivel?");
@@ -211,6 +215,7 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
                 opciones=opViviaHaceCincoAnios;
                 txtTitulo.setText("¿Dónde vivía hace 5 años?");
                 // en esta lcoalidad o no habia nacido: deshabilita 11
+                deshabilita =11;
                 break;
             case 11: opcionRespuesta="EditText";
                 txtTitulo.setText("¿País donde vivia hace 5 años?");
@@ -226,8 +231,8 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
             case 13:opcionRespuesta="RadioGroupBoolean";
                 opciones=opBoolean;
                 txtTitulo.setText("¿Cobra jubilación o pensión?");
-                //SI: habilita paso 14
                 //No: deshabilita 14
+                deshabilitaOpNo.add(14);
                 break;
             case 14:opcionRespuesta="RadioGroupMultiple";
                 opciones=opQueCobra;
@@ -236,8 +241,9 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
             case 15:opcionRespuesta="RadioGroupBoolean";
                 opciones=opBoolean;
                 txtTitulo.setText("¿Se reconoce indígena o descendiente de pueblos indígenas u originarios?");
-                //SI:16,17
                 //NO: deshabilita 16,17
+                deshabilitaOpNo.add(16);
+                deshabilitaOpNo.add(17);
                 break;
             case 16: opcionRespuesta="EditText";
                 txtTitulo.setText("¿De qué pueblo indígena u originario?");
@@ -272,8 +278,12 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
             case 23:opcionRespuesta="RadioGroupBoolean";
                 opciones=opBoolean;
                 txtTitulo.setText("¿Actualmente tiene trabajo?");
-                //SI: habilita 24,25,26,27,,28
                 //NO: deshabilita 24,25,26,27,,28
+                deshabilitaOpNo.add(24);
+                deshabilitaOpNo.add(25);
+                deshabilitaOpNo.add(26);
+                deshabilitaOpNo.add(27);
+                deshabilitaOpNo.add(28);
                 break;
             case 24:opcionRespuesta="RadioGroupMultiple";
                 opciones=opEstadoTrabajo;
@@ -299,6 +309,8 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
             case 29: opcionRespuesta="EditText";
                 txtTitulo.setText("¿Cuántas hijas e hijos nacidos vivos tuvo en total?");
                 //si es cero deshabilita 30
+                //HACER ESTO
+                deshabilita=30;
                 cantEditTextNro=1;
                 break;
             case 30: opcionRespuesta="EditText";
@@ -353,7 +365,6 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
             default:;
         }
 
-
         //// escucha en el radiogroup
         rgPersona.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -374,9 +385,9 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
             public void onClick(View v) {
                 //stepView.go(2,true); // esta instruccion pasa al siguiente paso
                 //stepView.done(true);
-                if(paso<33){
-                    getActivity().getSupportFragmentManager().beginTransaction().replace
-                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosPersona.newInstance(paso+1)).commit();
+                pasosAux = (ArrayList<Integer>)pasos.clone();
+                if(indicePaso<(pasos.size()-1)){
+                    ControlPasos();
                 }else {
 
                     stepView.go(1, true); // esta instruccion pasa al siguiente paso
@@ -389,9 +400,10 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
             public void onClick(View v) {
                 stepView.go(0,true);
                 stepView.done(false); //marcado como no hecho
-                if (paso>1){
+                pasos = (ArrayList<Integer>)pasosAux.clone();
+                if (indicePaso>1){
                     getActivity().getSupportFragmentManager().beginTransaction().replace
-                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosPersona.newInstance(paso-1)).commit();
+                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosPersona.newInstance(indicePaso-1,pasos,pasosAux)).commit();
                 } else{
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentAgregarPersona.newInstance()).commit();
                 }
@@ -403,6 +415,41 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
 
 
         return rootView;
+    }
+
+    public void ControlPasos(){
+        if (deshabilita>0){
+            for (int i=1; i<=pasos.size()-1; i++){
+                if (pasos.get(i).equals(deshabilita)){
+                    pasos.remove(i);
+                }
+            }
+        }
+        if (seleccionado.equals("Si.")) {
+            if (deshabilitaOpSi.size()>0){
+                for (int i=0; i<=pasos.size()-1; i++){
+                    for (int j=0; j<=deshabilitaOpSi.size()-1;j++){
+                        if (deshabilitaOpSi.get(j).equals(pasos.get(i))){
+                            pasos.remove(i);
+                        }
+                    }
+                }
+            }
+        }
+        if (seleccionado.equals("No.")) {
+            if (deshabilitaOpNo.size()>0){
+                for (int i=0; i<=pasos.size()-1; i++){
+                    for (int j=0; j<=deshabilitaOpNo.size()-1;j++){
+                        if (deshabilitaOpNo.get(j).equals(pasos.get(i))){
+                            pasos.remove(i);
+                        }
+                    }
+                }
+            }
+        }
+        seleccionado="";
+        getActivity().getSupportFragmentManager().beginTransaction().replace
+                (R.id.fragment_container_view_ingresar_datos,FragmentDatosPersona.newInstance(indicePaso+1,pasos,pasosAux)).commit();
     }
 
 // radiobutton

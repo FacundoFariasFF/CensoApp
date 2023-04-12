@@ -24,8 +24,6 @@
     <string name="titulo_agregar_persona">Ingrese el número de personas que viven la mayor parte del tiempo en esta vivienda (incluya bebes, niñas, niños y personas mayores).</string>
 
 
-
-
     <string-array name="provincias_array">
         <item> </item>
         <item>Buenos Aires</item>

@@ -157,8 +157,8 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
         });
         btnContinuarAgregar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace
-                        (R.id.fragment_container_view_ingresar_datos, FragmentDatosPersona.newInstance(1)).commit();
+                //DESCOMENTAR LA LINEA SIGUIENTE PARA EL FUNCIONAMIENTO NORMAL
+                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos, FragmentDatosPersona.newInstance(1)).commit();
                 //stepView.go(2,true); // esta instruccion pasa al siguiente paso
                 //stepView.done(true);
             }
