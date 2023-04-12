@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class FragmentDatosPersona extends Fragment implements View.OnClickListener {
@@ -37,7 +38,7 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
             "Varón trans / Masculinidad trans.", "No binario: otra identidad.",
             "Ninguna de las anteriores o prefiero no contestar."
     };
-    private static String[] opDiscapacidad = {"Si.", "No."
+    private static String[] opBoolean = {"Si.", "No."
     };
     private static String[] opCursa = {"Si.", "No."
     };
@@ -101,6 +102,15 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
     private int paso;
     String[] opciones = new String[0];
     String seleccionado;
+    String opcionRespuesta =""; // RadioGroupMultiple, RadioGroupBoolean, EditText;
+    int canTextView = 1;
+    int cantEditTextTexto = 0;
+    int cantEditTextNro = 0;
+    int cantEditTextFecha = 0;
+
+    List<Integer> deshabilitaOpSi;
+    List<Integer> deshabilitaOpNo;
+
     public FragmentDatosPersona() {
         // Required empty public constructor
     }
@@ -132,130 +142,217 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
         RadioGroup rgPersona = (RadioGroup)rootView.findViewById(R.id.radiog_persona);
         Spinner spinnerPersona = (Spinner) rootView.findViewById(R.id.spinner_persona);
         TextView txtTitulo= (TextView) rootView.findViewById(R.id.txt_titulo_persona);
+        TextView txtTituloAux= (TextView) rootView.findViewById(R.id.txt_titulo_aux);
+        TextView txtTituloAuxDos= (TextView) rootView.findViewById(R.id.txt_titulo_aux_dos);
+        TextView txtTituloFecha= (TextView) rootView.findViewById(R.id.txt_titulo_fecha);
         TextView txtCantPreguntasPersona= (TextView) rootView.findViewById(R.id.txt_cant_preguntas_persona);
-        edtextFechaPersona = (EditText) rootView.findViewById(R.id.edtext_fecha_persona);
         EditText edtextNro = (EditText) rootView.findViewById(R.id.edtext_nro);
         EditText edtextTexto = (EditText) rootView.findViewById(R.id.edtext_texto);
+        EditText edtextTextoAux = (EditText) rootView.findViewById(R.id.edtext_aux);
+        EditText edtextTextoAuxDos = (EditText) rootView.findViewById(R.id.edtext_aux_dos);
+        edtextFechaPersona = (EditText) rootView.findViewById(R.id.edtext_fecha_persona);
+        edtextFechaPersona.setOnClickListener(this);
 
         txtCantPreguntasPersona.setText("Pregunta sobre la Persona "+paso+" de x");
 
-
-        Boolean radiobuttom = true;
 // tengo que pedir nombre, apellido, dni, fecha nacimeinto, genero
         // hay que arreglar las vistas de datos que no son radiobutton
         // validad que pasos saltea o no dependiendo de la pregunta anterior
         switch (paso){
-            case 1: opciones=opGenero;
+            case 1: opcionRespuesta="RadioGroupMultiple";
+                opciones=opGenero;
                 txtTitulo.setText("De acuerdo a la identidad de género se considera:");
                 break;
-            case 2: opciones=opDiscapacidad;
+            case 2:opcionRespuesta="RadioGroupBoolean";
+                opciones=opBoolean;
                 txtTitulo.setText("Tiene alguna dificultad o limitación para caminar o subir escaleras, recordar o concentrarse, comunicarse, oír, aun con el uso de audífonos, ver, aun con anteojos puestos y comer, bañarse o vestirse.");
                 break;
-            case 3: opciones=opCursa;
+            case 3:opcionRespuesta="RadioGroupBoolean";
+                opciones=opBoolean;
                 txtTitulo.setText("¿Cursa o asiste a algún establecimiento educativo (guardería, jardín, escuela, universidad)?");
                 //SI: deshabilita 6,7,8
+                deshabilitaOpSi.add(6);
+                deshabilitaOpSi.add(7);
+                deshabilitaOpSi.add(8);
                 //NO: deshabilita 4,5
+                deshabilitaOpNo.add(4);
+                deshabilitaOpNo.add(5);
                 break;
-            case 4: opciones=opNivel;
+            case 4:opcionRespuesta="RadioGroupMultiple";
+                opciones=opNivel;
                 txtTitulo.setText("¿Qué nivel educativo está cursando?");
                 break;
-            case 5: //GradoAnioActual;
+            case 5: opcionRespuesta="EditText";
                 txtTitulo.setText("¿Qué grado o año está cursando?");
+                cantEditTextNro=1;
                 break;
-            case 6: //NivelMayor
+            case 6: opcionRespuesta="RadioGroupMultiple";
+                opciones=opNivel;
                 txtTitulo.setText("¿Cuál fue el nivel más alto que cursó?");
                 break;
-            case 7: opciones=opCompletoNievelMayot;
+            case 7:opcionRespuesta="RadioGroupBoolean";
+                opciones=opBoolean;
                 txtTitulo.setText("¿Completó ese nivel?");
+                //si: desahabilita 8
+                //no:habilita 8
                 break;
-            case 8: //CantAprobados
+            case 8: opcionRespuesta="EditText";
                 txtTitulo.setText("¿Cuántos grados o años aprobó en ese nivel?");
+                cantEditTextNro=1;
                 break;
-            case 9: // lugar de nacimiento
-                txtTitulo.setText("¿País , provincia y localidad de nacimiento?");
+            case 9: opcionRespuesta="EditText";
+                txtTitulo.setText("¿País de nacimiento?");
+                txtTituloAux.setText("¿Provincia de nacimiento?");
+                txtTituloAuxDos.setText("¿Localidad de nacimiento?");
+                canTextView = 3;
+                cantEditTextTexto = 3;
                 break;
-            case 10: opciones=opViviaHaceCincoAnios;
+            case 10:opcionRespuesta="RadioGroupMultiple";
+                opciones=opViviaHaceCincoAnios;
                 txtTitulo.setText("¿Dónde vivía hace 5 años?");
                 // en esta lcoalidad o no habia nacido: deshabilita 11
                 break;
-            case 11: //donde?
-                txtTitulo.setText("Seleccione ubicacion");
+            case 11: opcionRespuesta="EditText";
+                txtTitulo.setText("¿País donde vivia hace 5 años?");
+                txtTituloAux.setText("¿Provincia donde vivia hace 5 años?");
+                txtTituloAuxDos.setText("¿Localidad donde vivia hace 5 años?");
+                canTextView = 3;
+                cantEditTextTexto = 3;
                 break;
-            case 12: opciones=opCoberturaSalud;
+            case 12:opcionRespuesta="RadioGroupMultiple";
+                opciones=opCoberturaSalud;
                 txtTitulo.setText("Cobertura de salud.");
                 break;
-            case 13: opciones=opCobraJubOPen;
+            case 13:opcionRespuesta="RadioGroupBoolean";
+                opciones=opBoolean;
                 txtTitulo.setText("¿Cobra jubilación o pensión?");
-                //SI:
-                //No:
+                //SI: habilita paso 14
+                //No: deshabilita 14
                 break;
-            case 14: opciones=opQueCobra;
+            case 14:opcionRespuesta="RadioGroupMultiple";
+                opciones=opQueCobra;
                 txtTitulo.setText("Cobra:");
                 break;
-            case 15: opciones=opIndigena;
+            case 15:opcionRespuesta="RadioGroupBoolean";
+                opciones=opBoolean;
                 txtTitulo.setText("¿Se reconoce indígena o descendiente de pueblos indígenas u originarios?");
+                //SI:16,17
+                //NO: deshabilita 16,17
                 break;
-            case 16: //PuebloIndigina
+            case 16: opcionRespuesta="EditText";
                 txtTitulo.setText("¿De qué pueblo indígena u originario?");
+                cantEditTextTexto=1;
                 break;
-            case 17: opciones=opHablaLenguaIndigena;
+            case 17:opcionRespuesta="RadioGroupBoolean";
+                opciones=opBoolean;
                 txtTitulo.setText("¿Habla y/o entiende la lengua de ese pueblo indígena u originario?");
                 break;
-            case 18: opciones=opAfrodescendiente;
+            case 18:opcionRespuesta="RadioGroupBoolean";
+                opciones=opBoolean;
                 txtTitulo.setText("¿Se reconoce afrodescendiente o tiene antepasados negros o africanos?");
                 break;
                 ///Preguntas para los mayores de 14 años:
-            case 19: opciones=opSemPasadTrabajo;
+            case 19:opcionRespuesta="RadioGroupBoolean";
+                opciones=opBoolean;
                 txtTitulo.setText("Durante la semana pasada ¿trabajó por lo menos una hora, sin contar las tareas domésticas de su hogar?");
                 break;
-            case 20: opciones=opSemPasadChanga;
+            case 20:opcionRespuesta="RadioGroupBoolean";
+                opciones=opBoolean;
                 txtTitulo.setText("En esa semana ¿hizo alguna changa, fabricó algo para vender afuera, ayudó a un familiar o amigo en su chacra o negocio?");
                 break;
-            case 21: opciones=opSemPasadFalto;
+            case 21:opcionRespuesta="RadioGroupBoolean";
+                opciones=opBoolean;
                 txtTitulo.setText("En esa semana ¿tenía trabajo y no concurrió?");
                 break;
-            case 22: opciones=opCuatroSemBusco;
+            case 22:opcionRespuesta="RadioGroupBoolean";
+                opciones=opBoolean;
                 txtTitulo.setText("Durante las últimas cuatro semanas ¿buscó trabajo de alguna manera?");
                 break;
                 ////Preguntas sobre el trabajo
-            case 23: opciones=opTieneTrabajo;
+            case 23:opcionRespuesta="RadioGroupBoolean";
+                opciones=opBoolean;
                 txtTitulo.setText("¿Actualmente tiene trabajo?");
+                //SI: habilita 24,25,26,27,,28
+                //NO: deshabilita 24,25,26,27,,28
                 break;
-            case 24: opciones=opEstadoTrabajo;
+            case 24:opcionRespuesta="RadioGroupMultiple";
+                opciones=opEstadoTrabajo;
                 txtTitulo.setText("¿Cómo realiza su trabajo?");
                 break;
-            case 25: opciones=opTrabajoDescJubi;
+            case 25:opcionRespuesta="RadioGroupBoolean";
+                opciones=opBoolean;
                 txtTitulo.setText("En ese trabajo ¿le descuentan para la jubilación?");
                 break;
-            case 26: opciones=opTrabajoAportJubi;
+            case 26:opcionRespuesta="RadioGroupBoolean";
+                opciones=opBoolean;
                 txtTitulo.setText("En ese trabajo ¿aporta por sí mismo para la jubilación?");
                 break;
-            case 27: opciones=opActividadTrabajo;
+            case 27:opcionRespuesta="RadioGroupMultiple";
+                opciones=opActividadTrabajo;
                 txtTitulo.setText("Actividad principal de la empresa, negocio, institución en la que trabaja o del trabajo que realiza por su cuenta:");
                 break;
-            case 28: //descripcion
+            case 28: opcionRespuesta="EditText";
                 txtTitulo.setText("¿Cómo describiría en detalle esa actividad principal de la empresa, negocio, institución en la que trabaja o del trabajo que realiza por su cuenta?");
+                cantEditTextTexto = 1;
                 break;
                 //mujeres de 14 a 49 años
-            case 29: //
+            case 29: opcionRespuesta="EditText";
                 txtTitulo.setText("¿Cuántas hijas e hijos nacidos vivos tuvo en total?");
+                //si es cero deshabilita 30
+                cantEditTextNro=1;
+                break;
+            case 30: opcionRespuesta="EditText";
                 txtTitulo.setText("¿Cuántas hijas e hijos están vivos actualmente?");
-                txtTitulo.setText("¿Cuál es la fecha de nacimiento de la última hija o hijo nacido vivo?");
+                txtTituloFecha.setText("¿Cuál es la fecha de nacimiento de la última hija o hijo nacido vivo?");
+                canTextView = 2;
+                cantEditTextNro = 1;
+                cantEditTextFecha =1;
                 break;
             default:;
         }
 
-        if(radiobuttom==false){ //si radio radiobuttom es false signific a que la pregunta no tiene opcioines de seleccion
-            spinnerPersona.setVisibility(View.VISIBLE);
-            rgPersona.setVisibility(View.GONE);
-            spinnerPersona.setAdapter(new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_spinner_dropdown_item, opciones));
-        }else {
-            for (String opcion : opciones) {
-                RadioButton nuevoRadio = crearRadioButton(opcion);
-                rgPersona.addView(nuevoRadio);
-            }
+        switch (opcionRespuesta) {
+            case "RadioGroupMultiple":
+                for (String opcion : opciones) {
+                    RadioButton nuevoRadio = crearRadioButton(opcion);
+                    rgPersona.addView(nuevoRadio);
+                }
+                break;
+            case "RadioGroupBoolean":
+                for (String opcion : opciones) {
+                    RadioButton nuevoRadio = crearRadioButton(opcion);
+                    rgPersona.addView(nuevoRadio);
+                }
+                break;
+            case "EditText":
+                if (cantEditTextNro>0){
+                    edtextNro.setVisibility(View.VISIBLE);
+                    edtextNro.setFocusableInTouchMode(true);
+                }
+                if (cantEditTextTexto == 3){
+                    edtextTexto.setVisibility(View.VISIBLE);
+                    edtextTexto.setFocusableInTouchMode(true);
+                    edtextTextoAux.setVisibility(View.VISIBLE);
+                    edtextTextoAux.setFocusableInTouchMode(true);
+                    edtextTextoAuxDos.setVisibility(View.VISIBLE);
+                    edtextTextoAuxDos.setFocusableInTouchMode(true);
+                } else if (cantEditTextTexto == 1) {
+                    edtextTexto.setVisibility(View.VISIBLE);
+                    edtextTexto.setFocusableInTouchMode(true);
+                }
+                if (cantEditTextFecha>0) {
+                    txtTituloFecha.setVisibility(View.VISIBLE);
+                    edtextFechaPersona.setVisibility(View.VISIBLE);
+                }
+                if (canTextView==3){
+                    txtTituloAux.setVisibility(View.VISIBLE);
+                    txtTituloAuxDos.setVisibility(View.VISIBLE);
+                }
+
+                break;
+            default:;
         }
+
 
         //// escucha en el radiogroup
         rgPersona.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -271,33 +368,8 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
                 }
             }
         });
-        //// spinner
 
-        spinnerPersona.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String cantidad = (String) spinnerPersona.getSelectedItem();
-                seleccionado = cantidad;
-                //Toast.makeText(getContext(),"Seleccionaste la opcion: "+ cantidad,Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                // No seleccionaron nada
-            }
-        });
-
-
-
-
-
-
-
-
-
-
-
-
+        /////
         btnContinuarDatosPersona.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //stepView.go(2,true); // esta instruccion pasa al siguiente paso
@@ -325,6 +397,8 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
                 }
             }
         });
+        /////
+
 
 
 
