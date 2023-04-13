@@ -3,86 +3,97 @@ package com.example.censoapp;
 import java.time.LocalDate;
 
 public class Persona {
-    String nombre;
-    String apellido;
-    String nroDni;
-    String RelacionReferencia;
-    boolean Discapacidad;
-    String Sexo;
-    String Genero;
-    LocalDate FechaNacimiento;
-    boolean Cursa;
-    String Nivel;
-    String GradoAnioActual;
-    boolean Asistio;
-    String NivelMayor;
-    boolean CompletoNievelMayot;
-    String CantAprobados;
-    String NacimientoProvincia;
-    String NacimientoPais;
-    int AnioLlegadaArg;
-    String ViviaHaceCincoAnios;
-    String HaceCincoProvincia;
-    String CoberturaSalud;
-    boolean CobraJubOPen;
-    String QueCobra;
-    boolean Indigena;
-    String PuebloIndigina;
-    boolean HablaLenguaIndigena;
-    boolean Afrodescendiente;
-    boolean SemPasadTrabajo;
-    boolean SemPasadChanga;
-    boolean SemPasadFalto;
-    boolean CuatroSemBusco;
-    int HijosNacidos;
-    int HijosVivos;
-    LocalDate FechaNacUltimoHijo;
+    int nroDni;//indice 0
+    String nombre;//indice 1
+    String apellido;//indice 2
+    String sexo;//indice 3
+    LocalDate fechaNacimiento;//indice 4
+    String relacionReferencia;//indice 5 // IMPORTANTE: falta preguntar
+    String genero;//indice 6
+    String discapacidad;//indice 7
+    String cursa;//indice 8
+    String nivel;//indice 9
+    String gradoAnioActual;//indice 10
+    String nivelMayor;//indice 11
+    String completoNievelMayot;//indice 12
+    String cantAprobados;//indice 13
+    String nacimientoPais;//indice 14
+    String nacimientoProvincia;//indice 15
+    String nacimientoLocalidad;//indice 16
+    String viviaHaceCincoAnios;//indice 17
+    String haceCincoAniosNacimientoPais;//indice 18
+    String haceCincoAniosNacimientoProvincia;//indice 19
+    String haceCincoAniosNacimientoLocalidad;//indice 20
+    String coberturaSalud;//indice 21
+    String cobraJubOPen;//indice 22
+    String queCobra;//indice 23
+    String indigena;//indice 24
+    String puebloIndigina;//indice 25
+    String hablaLenguaIndigena;//indice 26
+    String afrodescendiente;//indice 27
+    String semPasadTrabajo;//indice 28
+    String semPasadChanga;//indice 29
+    String semPasadFalto;//indice 30
+    String cuatroSemBusco;//indice 31
+    String tieneTrab;//indice 32 ///
+    int hijosNacidos;//indice 33
+    int hijosVivos;//indice 34
+    LocalDate fechaNacUltimoHijo;//indice 35
 
-    public Persona(String nombre, String apellido, String nroDni, String relacionReferencia,
-                   boolean discapacidad, String sexo, String genero, LocalDate fechaNacimiento,
-                   boolean cursa, String nivel, String gradoAnioActual, boolean asistio,
-                   String nivelMayor, boolean completoNievelMayot, String cantAprobados,
-                   String nacimientoProvincia, String nacimientoPais, int anioLlegadaArg,
-                   String viviaHaceCincoAnios, String haceCincoProvincia, String coberturaSalud,
-                   boolean cobraJubOPen, String queCobra, boolean indigena, String puebloIndigina,
-                   boolean hablaLenguaIndigena, boolean afrodescendiente, boolean semPasadTrabajo,
-                   boolean semPasadChanga, boolean semPasadFalto, boolean cuatroSemBusco,
-                   int hijosNacidos, int hijosVivos, LocalDate fechaNacUltimoHijo) {
-
+    public Persona(int nroDni, String nombre, String apellido, String sexo, LocalDate fechaNacimiento,
+                   String relacionReferencia, String genero, String discapacidad, String cursa, String nivel,
+                   String gradoAnioActual, String nivelMayor, String completoNievelMayot,
+                   String cantAprobados, String nacimientoPais, String nacimientoProvincia,
+                   String nacimientoLocalidad, String viviaHaceCincoAnios, String haceCincoAniosNacimientoPais,
+                   String haceCincoAniosNacimientoProvincia, String haceCincoAniosNacimientoLocalidad,
+                   String coberturaSalud, String cobraJubOPen, String queCobra, String indigena,
+                   String puebloIndigina, String hablaLenguaIndigena, String afrodescendiente,
+                   String semPasadTrabajo, String semPasadChanga, String semPasadFalto, String cuatroSemBusco,
+                   String tieneTrab, int hijosNacidos, int hijosVivos, LocalDate fechaNacUltimoHijo) {
+        this.nroDni = nroDni;
         this.nombre = nombre;
         this.apellido = apellido;
+        this.sexo = sexo;
+        this.fechaNacimiento = fechaNacimiento;
+        this.relacionReferencia = relacionReferencia;
+        this.genero = genero;
+        this.discapacidad = discapacidad;
+        this.cursa = cursa;
+        this.nivel = nivel;
+        this.gradoAnioActual = gradoAnioActual;
+        this.nivelMayor = nivelMayor;
+        this.completoNievelMayot = completoNievelMayot;
+        this.cantAprobados = cantAprobados;
+        this.nacimientoPais = nacimientoPais;
+        this.nacimientoProvincia = nacimientoProvincia;
+        this.nacimientoLocalidad = nacimientoLocalidad;
+        this.viviaHaceCincoAnios = viviaHaceCincoAnios;
+        this.haceCincoAniosNacimientoPais = haceCincoAniosNacimientoPais;
+        this.haceCincoAniosNacimientoProvincia = haceCincoAniosNacimientoProvincia;
+        this.haceCincoAniosNacimientoLocalidad = haceCincoAniosNacimientoLocalidad;
+        this.coberturaSalud = coberturaSalud;
+        this.cobraJubOPen = cobraJubOPen;
+        this.queCobra = queCobra;
+        this.indigena = indigena;
+        this.puebloIndigina = puebloIndigina;
+        this.hablaLenguaIndigena = hablaLenguaIndigena;
+        this.afrodescendiente = afrodescendiente;
+        this.semPasadTrabajo = semPasadTrabajo;
+        this.semPasadChanga = semPasadChanga;
+        this.semPasadFalto = semPasadFalto;
+        this.cuatroSemBusco = cuatroSemBusco;
+        this.tieneTrab = tieneTrab;
+        this.hijosNacidos = hijosNacidos;
+        this.hijosVivos = hijosVivos;
+        this.fechaNacUltimoHijo = fechaNacUltimoHijo;
+    }
+
+    public int getNroDni() {
+        return nroDni;
+    }
+
+    public void setNroDni(int nroDni) {
         this.nroDni = nroDni;
-        RelacionReferencia = relacionReferencia;
-        Discapacidad = discapacidad;
-        Sexo = sexo;
-        Genero = genero;
-        FechaNacimiento = fechaNacimiento;
-        Cursa = cursa;
-        Nivel = nivel;
-        GradoAnioActual = gradoAnioActual;
-        Asistio = asistio;
-        NivelMayor = nivelMayor;
-        CompletoNievelMayot = completoNievelMayot;
-        CantAprobados = cantAprobados;
-        NacimientoProvincia = nacimientoProvincia;
-        NacimientoPais = nacimientoPais;
-        AnioLlegadaArg = anioLlegadaArg;
-        ViviaHaceCincoAnios = viviaHaceCincoAnios;
-        HaceCincoProvincia = haceCincoProvincia;
-        CoberturaSalud = coberturaSalud;
-        CobraJubOPen = cobraJubOPen;
-        QueCobra = queCobra;
-        Indigena = indigena;
-        PuebloIndigina = puebloIndigina;
-        HablaLenguaIndigena = hablaLenguaIndigena;
-        Afrodescendiente = afrodescendiente;
-        SemPasadTrabajo = semPasadTrabajo;
-        SemPasadChanga = semPasadChanga;
-        SemPasadFalto = semPasadFalto;
-        CuatroSemBusco = cuatroSemBusco;
-        HijosNacidos = hijosNacidos;
-        HijosVivos = hijosVivos;
-        FechaNacUltimoHijo = fechaNacUltimoHijo;
     }
 
     public String getNombre() {
@@ -101,260 +112,268 @@ public class Persona {
         this.apellido = apellido;
     }
 
-    public String getNroDni() {
-        return nroDni;
-    }
-
-    public void setNroDni(String nroDni) {
-        this.nroDni = nroDni;
-    }
-
-    public String getRelacionReferencia() {
-        return RelacionReferencia;
-    }
-
-    public void setRelacionReferencia(String relacionReferencia) {
-        RelacionReferencia = relacionReferencia;
-    }
-
-    public boolean isDiscapacidad() {
-        return Discapacidad;
-    }
-
-    public void setDiscapacidad(boolean discapacidad) {
-        Discapacidad = discapacidad;
-    }
-
     public String getSexo() {
-        return Sexo;
+        return sexo;
     }
 
     public void setSexo(String sexo) {
-        Sexo = sexo;
-    }
-
-    public String getGenero() {
-        return Genero;
-    }
-
-    public void setGenero(String genero) {
-        Genero = genero;
+        this.sexo = sexo;
     }
 
     public LocalDate getFechaNacimiento() {
-        return FechaNacimiento;
+        return fechaNacimiento;
     }
 
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
-        FechaNacimiento = fechaNacimiento;
+        this.fechaNacimiento = fechaNacimiento;
     }
 
-    public boolean getCursa() {
-        return Cursa;
+    public String getRelacionReferencia() {
+        return relacionReferencia;
     }
 
-    public void setCursa(boolean cursa) {
-        Cursa = cursa;
+    public void setRelacionReferencia(String relacionReferencia) {
+        this.relacionReferencia = relacionReferencia;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public String getDiscapacidad() {
+        return discapacidad;
+    }
+
+    public void setDiscapacidad(String discapacidad) {
+        this.discapacidad = discapacidad;
+    }
+
+    public String getCursa() {
+        return cursa;
+    }
+
+    public void setCursa(String cursa) {
+        this.cursa = cursa;
     }
 
     public String getNivel() {
-        return Nivel;
+        return nivel;
     }
 
     public void setNivel(String nivel) {
-        Nivel = nivel;
+        this.nivel = nivel;
     }
 
     public String getGradoAnioActual() {
-        return GradoAnioActual;
+        return gradoAnioActual;
     }
 
     public void setGradoAnioActual(String gradoAnioActual) {
-        GradoAnioActual = gradoAnioActual;
-    }
-
-    public boolean isAsistio() {
-        return Asistio;
-    }
-
-    public void setAsistio(boolean asistio) {
-        Asistio = asistio;
+        this.gradoAnioActual = gradoAnioActual;
     }
 
     public String getNivelMayor() {
-        return NivelMayor;
+        return nivelMayor;
     }
 
     public void setNivelMayor(String nivelMayor) {
-        NivelMayor = nivelMayor;
+        this.nivelMayor = nivelMayor;
     }
 
-    public boolean isCompletoNievelMayot() {
-        return CompletoNievelMayot;
+    public String getCompletoNievelMayot() {
+        return completoNievelMayot;
     }
 
-    public void setCompletoNievelMayot(boolean completoNievelMayot) {
-        CompletoNievelMayot = completoNievelMayot;
+    public void setCompletoNievelMayot(String completoNievelMayot) {
+        this.completoNievelMayot = completoNievelMayot;
     }
 
     public String getCantAprobados() {
-        return CantAprobados;
+        return cantAprobados;
     }
 
     public void setCantAprobados(String cantAprobados) {
-        CantAprobados = cantAprobados;
-    }
-
-    public String getNacimientoProvincia() {
-        return NacimientoProvincia;
-    }
-
-    public void setNacimientoProvincia(String nacimientoProvincia) {
-        NacimientoProvincia = nacimientoProvincia;
+        this.cantAprobados = cantAprobados;
     }
 
     public String getNacimientoPais() {
-        return NacimientoPais;
+        return nacimientoPais;
     }
 
     public void setNacimientoPais(String nacimientoPais) {
-        NacimientoPais = nacimientoPais;
+        this.nacimientoPais = nacimientoPais;
     }
 
-    public int getAnioLlegadaArg() {
-        return AnioLlegadaArg;
+    public String getNacimientoProvincia() {
+        return nacimientoProvincia;
     }
 
-    public void setAnioLlegadaArg(int anioLlegadaArg) {
-        AnioLlegadaArg = anioLlegadaArg;
+    public void setNacimientoProvincia(String nacimientoProvincia) {
+        this.nacimientoProvincia = nacimientoProvincia;
+    }
+
+    public String getNacimientoLocalidad() {
+        return nacimientoLocalidad;
+    }
+
+    public void setNacimientoLocalidad(String nacimientoLocalidad) {
+        this.nacimientoLocalidad = nacimientoLocalidad;
     }
 
     public String getViviaHaceCincoAnios() {
-        return ViviaHaceCincoAnios;
+        return viviaHaceCincoAnios;
     }
 
     public void setViviaHaceCincoAnios(String viviaHaceCincoAnios) {
-        ViviaHaceCincoAnios = viviaHaceCincoAnios;
+        this.viviaHaceCincoAnios = viviaHaceCincoAnios;
     }
 
-    public String getHaceCincoProvincia() {
-        return HaceCincoProvincia;
+    public String getHaceCincoAniosNacimientoPais() {
+        return haceCincoAniosNacimientoPais;
     }
 
-    public void setHaceCincoProvincia(String haceCincoProvincia) {
-        HaceCincoProvincia = haceCincoProvincia;
+    public void setHaceCincoAniosNacimientoPais(String haceCincoAniosNacimientoPais) {
+        this.haceCincoAniosNacimientoPais = haceCincoAniosNacimientoPais;
+    }
+
+    public String getHaceCincoAniosNacimientoProvincia() {
+        return haceCincoAniosNacimientoProvincia;
+    }
+
+    public void setHaceCincoAniosNacimientoProvincia(String haceCincoAniosNacimientoProvincia) {
+        this.haceCincoAniosNacimientoProvincia = haceCincoAniosNacimientoProvincia;
+    }
+
+    public String getHaceCincoAniosNacimientoLocalidad() {
+        return haceCincoAniosNacimientoLocalidad;
+    }
+
+    public void setHaceCincoAniosNacimientoLocalidad(String haceCincoAniosNacimientoLocalidad) {
+        this.haceCincoAniosNacimientoLocalidad = haceCincoAniosNacimientoLocalidad;
     }
 
     public String getCoberturaSalud() {
-        return CoberturaSalud;
+        return coberturaSalud;
     }
 
     public void setCoberturaSalud(String coberturaSalud) {
-        CoberturaSalud = coberturaSalud;
+        this.coberturaSalud = coberturaSalud;
     }
 
-    public boolean isCobraJubOPen() {
-        return CobraJubOPen;
+    public String getCobraJubOPen() {
+        return cobraJubOPen;
     }
 
-    public void setCobraJubOPen(boolean cobraJubOPen) {
-        CobraJubOPen = cobraJubOPen;
+    public void setCobraJubOPen(String cobraJubOPen) {
+        this.cobraJubOPen = cobraJubOPen;
     }
 
     public String getQueCobra() {
-        return QueCobra;
+        return queCobra;
     }
 
     public void setQueCobra(String queCobra) {
-        QueCobra = queCobra;
+        this.queCobra = queCobra;
     }
 
-    public boolean isIndigena() {
-        return Indigena;
+    public String getIndigena() {
+        return indigena;
     }
 
-    public void setIndigena(boolean indigena) {
-        Indigena = indigena;
+    public void setIndigena(String indigena) {
+        this.indigena = indigena;
     }
 
     public String getPuebloIndigina() {
-        return PuebloIndigina;
+        return puebloIndigina;
     }
 
     public void setPuebloIndigina(String puebloIndigina) {
-        PuebloIndigina = puebloIndigina;
+        this.puebloIndigina = puebloIndigina;
     }
 
-    public boolean isHablaLenguaIndigena() {
-        return HablaLenguaIndigena;
+    public String getHablaLenguaIndigena() {
+        return hablaLenguaIndigena;
     }
 
-    public void setHablaLenguaIndigena(boolean hablaLenguaIndigena) {
-        HablaLenguaIndigena = hablaLenguaIndigena;
+    public void setHablaLenguaIndigena(String hablaLenguaIndigena) {
+        this.hablaLenguaIndigena = hablaLenguaIndigena;
     }
 
-    public boolean isAfrodescendiente() {
-        return Afrodescendiente;
+    public String getAfrodescendiente() {
+        return afrodescendiente;
     }
 
-    public void setAfrodescendiente(boolean afrodescendiente) {
-        Afrodescendiente = afrodescendiente;
+    public void setAfrodescendiente(String afrodescendiente) {
+        this.afrodescendiente = afrodescendiente;
     }
 
-    public boolean isSemPasadTrabajo() {
-        return SemPasadTrabajo;
+    public String getSemPasadTrabajo() {
+        return semPasadTrabajo;
     }
 
-    public void setSemPasadTrabajo(boolean semPasadTrabajo) {
-        SemPasadTrabajo = semPasadTrabajo;
+    public void setSemPasadTrabajo(String semPasadTrabajo) {
+        this.semPasadTrabajo = semPasadTrabajo;
     }
 
-    public boolean isSemPasadChanga() {
-        return SemPasadChanga;
+    public String getSemPasadChanga() {
+        return semPasadChanga;
     }
 
-    public void setSemPasadChanga(boolean semPasadChanga) {
-        SemPasadChanga = semPasadChanga;
+    public void setSemPasadChanga(String semPasadChanga) {
+        this.semPasadChanga = semPasadChanga;
     }
 
-    public boolean isSemPasadFalto() {
-        return SemPasadFalto;
+    public String getSemPasadFalto() {
+        return semPasadFalto;
     }
 
-    public void setSemPasadFalto(boolean semPasadFalto) {
-        SemPasadFalto = semPasadFalto;
+    public void setSemPasadFalto(String semPasadFalto) {
+        this.semPasadFalto = semPasadFalto;
     }
 
-    public boolean isCuatroSemBusco() {
-        return CuatroSemBusco;
+    public String getCuatroSemBusco() {
+        return cuatroSemBusco;
     }
 
-    public void setCuatroSemBusco(boolean cuatroSemBusco) {
-        CuatroSemBusco = cuatroSemBusco;
+    public void setCuatroSemBusco(String cuatroSemBusco) {
+        this.cuatroSemBusco = cuatroSemBusco;
+    }
+
+    public String getTieneTrab() {
+        return tieneTrab;
+    }
+
+    public void setTieneTrab(String tieneTrab) {
+        this.tieneTrab = tieneTrab;
     }
 
     public int getHijosNacidos() {
-        return HijosNacidos;
+        return hijosNacidos;
     }
 
     public void setHijosNacidos(int hijosNacidos) {
-        HijosNacidos = hijosNacidos;
+        this.hijosNacidos = hijosNacidos;
     }
 
     public int getHijosVivos() {
-        return HijosVivos;
+        return hijosVivos;
     }
 
     public void setHijosVivos(int hijosVivos) {
-        HijosVivos = hijosVivos;
+        this.hijosVivos = hijosVivos;
     }
 
     public LocalDate getFechaNacUltimoHijo() {
-        return FechaNacUltimoHijo;
+        return fechaNacUltimoHijo;
     }
 
     public void setFechaNacUltimoHijo(LocalDate fechaNacUltimoHijo) {
-        FechaNacUltimoHijo = fechaNacUltimoHijo;
+        this.fechaNacUltimoHijo = fechaNacUltimoHijo;
     }
 }
 

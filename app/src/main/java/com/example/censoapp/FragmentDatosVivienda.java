@@ -98,7 +98,7 @@ public class FragmentDatosVivienda extends Fragment {
     //ViviendaAdapter viviendaAdapter;
 
     String[] opciones = new String[0];
-    static String[] respuestas = new String[17];
+    static String[] respuestasVivienda = new String[17];
 
     String seleccionado;
     private int paso;
@@ -247,52 +247,52 @@ public class FragmentDatosVivienda extends Fragment {
             public void onClick(View v) {
                 //Toast.makeText(getContext(),"Seleccionaste la opcion: "+ seleccionado,Toast.LENGTH_SHORT).show();
                 switch (paso){
-                    case 1: respuestas[1] = seleccionado;
+                    case 1: respuestasVivienda[1] = seleccionado;
                         break;
-                    case 2: respuestas[14] = seleccionado;
+                    case 2: respuestasVivienda[14] = seleccionado;
                         break;
-                    case 3: respuestas[15] = seleccionado;
+                    case 3: respuestasVivienda[15] = seleccionado;
                         break;
-                    case 4: respuestas[2] = seleccionado;
+                    case 4: respuestasVivienda[2] = seleccionado;
                         break;
-                    case 5: respuestas[3] = seleccionado;
+                    case 5: respuestasVivienda[3] = seleccionado;
                         break;
-                    case 6: respuestas[4] = seleccionado;
+                    case 6: respuestasVivienda[4] = seleccionado;
                         break;
-                    case 7: respuestas[5] = seleccionado;
+                    case 7: respuestasVivienda[5] = seleccionado;
                         break;
-                    case 8: respuestas[6] = seleccionado;
+                    case 8: respuestasVivienda[6] = seleccionado;
                         break;
-                    case 9: respuestas[7] = seleccionado;
+                    case 9: respuestasVivienda[7] = seleccionado;
                         break;
-                    case 10: respuestas[8] = seleccionado;
+                    case 10: respuestasVivienda[8] = seleccionado;
                         break;
-                    case 11: respuestas[9] = seleccionado;
+                    case 11: respuestasVivienda[9] = seleccionado;
                         break;
-                    case 12: respuestas[10] = seleccionado;
+                    case 12: respuestasVivienda[10] = seleccionado;
                         break;
-                    case 13: respuestas[11] = seleccionado;
+                    case 13: respuestasVivienda[11] = seleccionado;
                         break;
-                    case 14: respuestas[12] = seleccionado;
+                    case 14: respuestasVivienda[12] = seleccionado;
                         break;
-                    case 15: respuestas[13] = seleccionado;
+                    case 15: respuestasVivienda[13] = seleccionado;
                         break;
-                    case 16: respuestas[16] = seleccionado;
+                    case 16: respuestasVivienda[16] = seleccionado;
                         break;
-                    default:respuestas[0] = "0";
+                    default:respuestasVivienda[0] = "0";
                 }
 
                // Toast.makeText(getContext(),vivienda.tipo ,Toast.LENGTH_SHORT).show();
                 if(paso<16){
                     getActivity().getSupportFragmentManager().beginTransaction().replace
-                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(paso+1,respuestas)).commit();
+                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(paso+1,respuestasVivienda)).commit();
                 }else {
-                    respuestas[0] = "0";
-                    Vivienda vivienda = new Vivienda(respuestas[0],respuestas[1],respuestas[2],
-                            respuestas[3],respuestas[4],respuestas[5], respuestas[6],respuestas[7],
-                            Integer.parseInt(respuestas[8]),respuestas[9],respuestas[10],
-                            respuestas[11],Integer.parseInt(respuestas[12]),
-                            Integer.parseInt(respuestas[13]),respuestas[14],respuestas[15],respuestas[16]);
+                    respuestasVivienda[0] = "0";
+                    Vivienda vivienda = new Vivienda(respuestasVivienda[0],respuestasVivienda[1],respuestasVivienda[2],
+                            respuestasVivienda[3],respuestasVivienda[4],respuestasVivienda[5], respuestasVivienda[6],respuestasVivienda[7],
+                            Integer.parseInt(respuestasVivienda[8]),respuestasVivienda[9],respuestasVivienda[10],
+                            respuestasVivienda[11],Integer.parseInt(respuestasVivienda[12]),
+                            Integer.parseInt(respuestasVivienda[13]),respuestasVivienda[14],respuestasVivienda[15],respuestasVivienda[16]);
 
                     viviendaList = new ArrayList<>();
                     viviendaList.add(vivienda);
@@ -309,7 +309,7 @@ public class FragmentDatosVivienda extends Fragment {
                 //Toast.makeText(getContext(),"Volver",Toast.LENGTH_SHORT).show();
                 if (paso>1){
                     getActivity().getSupportFragmentManager().beginTransaction().replace
-                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(paso-1,respuestas)).commit();
+                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(paso-1,respuestasVivienda)).commit();
                 } else{
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view,FragmentInicio.newInstance()).commit();
                 }

@@ -5,11 +5,11 @@ import java.time.LocalDate;
 public class PersonaAgregada {
     String nombre;
     String apellido;
-    String nroDni;
+    int nroDni;
     String sexo;
     LocalDate fechaNacimiento;
 
-    public PersonaAgregada(String nombre, String apellido, String nroDni, String sexo, LocalDate fechaNacimiento) {
+    public PersonaAgregada(String nombre, String apellido, int nroDni, String sexo, LocalDate fechaNacimiento) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.nroDni = nroDni;
@@ -33,11 +33,11 @@ public class PersonaAgregada {
         this.apellido = apellido;
     }
 
-    public String getNroDni() {
+    public int getNroDni() {
         return nroDni;
     }
 
-    public void setNroDni(String nroDni) {
+    public void setNroDni(int nroDni) {
         this.nroDni = nroDni;
     }
 

@@ -34,9 +34,10 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
     EditText edtextFechaNacimiento;
     Spinner spinnerSexo;
     int nroCant=0, nroPersona=0;  //nro cant es la cantidad de personas que viven en la vivienda (deberi a ir en la db de vivienda)
-    String nombre,apellido,nroDNI, sexo;
+    String nombre,apellido,sexo;
+    int nroDNI;
     LocalDate fechaNacimiento;
-    List<PersonaAgregada> personaAgregadaList;
+    static List<PersonaAgregada> personaAgregadaList = new ArrayList<>(); // lista con los datos de las personas agregadas esto deberia ir a la db
 
     public FragmentAgregarPersona() {
         // Required empty public constructor
@@ -123,10 +124,9 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
                 //Toast.makeText(getContext(),edtextCantPersonas.getText(),Toast.LENGTH_SHORT).show();
                 nombre = edtextNombre.getText().toString();
                 apellido = edtextApellido.getText().toString();
-                nroDNI = edtextNroDni.getText().toString();
+                nroDNI = Integer.parseInt(String.valueOf((edtextNroDni.getText())));
 
                 PersonaAgregada personaAgregada = new PersonaAgregada(nombre,apellido,nroDNI,sexo,fechaNacimiento);
-                personaAgregadaList = new ArrayList<>();
                 personaAgregadaList.add(personaAgregada); // lista con todos los datos
 
                 if (nroPersona < nroCant){
@@ -155,7 +155,7 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
                     pasos.add(i,i);
                 }
                 pasosAux = pasos;
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos, FragmentDatosPersona.newInstance(1,pasos,pasosAux)).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos, FragmentDatosPersona.newInstance(1,pasos,pasosAux,FragmentDatosPersona.respuestasPersona)).commit();
                 //stepView.go(2,true); // esta instruccion pasa al siguiente paso
                 //stepView.done(true);
             }
@@ -164,7 +164,7 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
             public void onClick(View v) {
                 stepView.go(0,true);
                 stepView.done(false); //marcado como no hecho
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(16,FragmentDatosVivienda.respuestas)).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(16,FragmentDatosVivienda.respuestasVivienda)).commit();
                 //Toast.makeText(getContext(),"Volver",Toast.LENGTH_SHORT).show();
             }
         });
