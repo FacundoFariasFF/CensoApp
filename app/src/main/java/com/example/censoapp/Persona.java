@@ -3,7 +3,7 @@ package com.example.censoapp;
 import java.time.LocalDate;
 
 public class Persona {
-    String nombe;
+    String nombre;
     String apellido;
     String nroDni;
     String RelacionReferencia;
@@ -38,7 +38,7 @@ public class Persona {
     int HijosVivos;
     LocalDate FechaNacUltimoHijo;
 
-    public Persona(String nombe, String apellido, String nroDni, String relacionReferencia,
+    public Persona(String nombre, String apellido, String nroDni, String relacionReferencia,
                    boolean discapacidad, String sexo, String genero, LocalDate fechaNacimiento,
                    boolean cursa, String nivel, String gradoAnioActual, boolean asistio,
                    String nivelMayor, boolean completoNievelMayot, String cantAprobados,
@@ -49,7 +49,7 @@ public class Persona {
                    boolean semPasadChanga, boolean semPasadFalto, boolean cuatroSemBusco,
                    int hijosNacidos, int hijosVivos, LocalDate fechaNacUltimoHijo) {
 
-        this.nombe = nombe;
+        this.nombre = nombre;
         this.apellido = apellido;
         this.nroDni = nroDni;
         RelacionReferencia = relacionReferencia;
@@ -85,12 +85,12 @@ public class Persona {
         FechaNacUltimoHijo = fechaNacUltimoHijo;
     }
 
-    public String getNombe() {
-        return nombe;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombe(String nombe) {
-        this.nombe = nombe;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getApellido() {

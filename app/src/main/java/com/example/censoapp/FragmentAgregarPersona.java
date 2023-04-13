@@ -33,9 +33,10 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
     TextView txtNroPersona;
     EditText edtextFechaNacimiento;
     Spinner spinnerSexo;
-    int nroCant=0, nroPersona=0;
-    String nombre,apellido,nroDNI;
-    List<Persona> personaList;
+    int nroCant=0, nroPersona=0;  //nro cant es la cantidad de personas que viven en la vivienda (deberi a ir en la db de vivienda)
+    String nombre,apellido,nroDNI, sexo;
+    LocalDate fechaNacimiento;
+    List<PersonaAgregada> personaAgregadaList;
 
     public FragmentAgregarPersona() {
         // Required empty public constructor
@@ -87,15 +88,6 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
 
 
 
-
-
-
-
-
-
-
-
-
         btnConfirmarCantidad.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 nroCant = Integer.parseInt(String.valueOf(edtextCantPersonas.getText()));
@@ -129,25 +121,22 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
         btnAgregarPersona.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Toast.makeText(getContext(),edtextCantPersonas.getText(),Toast.LENGTH_SHORT).show();
+                nombre = edtextNombre.getText().toString();
+                apellido = edtextApellido.getText().toString();
+                nroDNI = edtextNroDni.getText().toString();
+
+                PersonaAgregada personaAgregada = new PersonaAgregada(nombre,apellido,nroDNI,sexo,fechaNacimiento);
+                personaAgregadaList = new ArrayList<>();
+                personaAgregadaList.add(personaAgregada); // lista con todos los datos
+
                 if (nroPersona < nroCant){
-
-                    nombre = edtextNombre.getText().toString();
-                    apellido = edtextApellido.getText().toString();
-                    nroDNI = edtextNroDni.getText().toString();
-                    nroPersona++;
-                    txtNroPersona.setText("Pesona "+nroPersona+" de "+ nroCant +".");
-                    //Persona persona = new Persona(nombre,apellido,nroDNI);
-
-
-                    //personaList = new ArrayList<>();
-                    //personaList.add(persona);
-
                     edtextNombre.setText("");
                     edtextApellido.setText("");
                     spinnerSexo.setSelection(0);
                     edtextNroDni.setText("");
                     edtextFechaNacimiento.setText("");
-
+                    nroPersona++;
+                    txtNroPersona.setText("Pesona "+nroPersona+" de "+ nroCant +".");
                 }else if (nroPersona == nroCant){
                     txtNroPersona.setText("Pesona "+nroPersona+" de "+ nroCant +".");
                     btnAgregarPersona.setVisibility(View.INVISIBLE);
@@ -159,6 +148,14 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
             public void onClick(View v) {
                 //DESCOMENTAR LA LINEA SIGUIENTE PARA EL FUNCIONAMIENTO NORMAL
                 //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos, FragmentDatosPersona.newInstance(1)).commit();
+
+                ArrayList<Integer> pasos = new ArrayList<>();
+                ArrayList<Integer> pasosAux = new ArrayList<>();
+                for (int i=0; i<=31; i++){
+                    pasos.add(i,i);
+                }
+                pasosAux = pasos;
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos, FragmentDatosPersona.newInstance(1,pasos,pasosAux)).commit();
                 //stepView.go(2,true); // esta instruccion pasa al siguiente paso
                 //stepView.done(true);
             }
@@ -182,6 +179,7 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         // Se seleccionó un elemento. Puede recuperar el elemento seleccionado usando
         // parent.getItemAtPosition(pos)
+        sexo = String.valueOf((parent.getItemAtPosition(pos)));
         Toast.makeText(getContext(),"seleccionaste"+parent.getItemAtPosition(pos) ,Toast.LENGTH_SHORT).show();
     }
 
@@ -208,6 +206,7 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
                 DateTimeFormatter formatoBarra = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 fechaSelec = fechaseleccionada.format(formatoBarra);
                 edtextFechaNacimiento.setText(fechaSelec);
+                fechaNacimiento = fechaseleccionada;
             }
             @Override
             public void CancelarCalendario(DialogFragment dialogCalendario) {

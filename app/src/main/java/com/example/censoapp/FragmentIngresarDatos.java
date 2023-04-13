@@ -63,15 +63,9 @@ public class FragmentIngresarDatos extends Fragment {
                 .commit();
 
 
-        //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(1,FragmentDatosVivienda.respuestas)).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(1,FragmentDatosVivienda.respuestas)).commit();
 
-        ArrayList<Integer> pasos = new ArrayList<>();
-        for (int i=0; i<=31; i++){
-            pasos.add(i,i);
-        }
-        ArrayList<Integer> pasosAux = new ArrayList<>();
-        pasosAux = pasos;
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos, FragmentDatosPersona.newInstance(1,pasos,pasosAux)).commit();
+
 
         return rootView;
     }

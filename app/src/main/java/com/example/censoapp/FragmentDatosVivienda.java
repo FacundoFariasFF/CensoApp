@@ -94,7 +94,7 @@ public class FragmentDatosVivienda extends Fragment {
     };*/
 
     //RecyclerView recyclerView;
-    List<Vivienda> viviendaList;
+    List<Vivienda> viviendaList;  //aca estan todos los datos al finalizar, esto deberia ir a la base
     //ViviendaAdapter viviendaAdapter;
 
     String[] opciones = new String[0];
