@@ -15,7 +15,7 @@ public class Persona {
     String nivel;//indice 9
     String gradoAnioActual;//indice 10
     String nivelMayor;//indice 11
-    String completoNievelMayot;//indice 12
+    String completoNievelMayor;//indice 12
     String cantAprobados;//indice 13
     String nacimientoPais;//indice 14
     String nacimientoProvincia;//indice 15
@@ -36,20 +36,20 @@ public class Persona {
     String semPasadFalto;//indice 30
     String cuatroSemBusco;//indice 31
     String tieneTrab;//indice 32 ///
-    int hijosNacidos;//indice 33
-    int hijosVivos;//indice 34
-    LocalDate fechaNacUltimoHijo;//indice 35
+    String estadoTrabajo; //indice 33 ///
+    String trabajoDescJubi; //indice 34 ///
+    String trabajoAportJubi; //indice 35 ///
+    String actividadTrabajo; //indice 36 ///
+    String detalleTrabajo; //indice 37 ///
+    int hijosNacidos;//indice 38
+    int hijosVivos;//indice 39
+    LocalDate fechaNacUltimoHijo;//indice 40
 
     public Persona(int nroDni, String nombre, String apellido, String sexo, LocalDate fechaNacimiento,
                    String relacionReferencia, String genero, String discapacidad, String cursa, String nivel,
-                   String gradoAnioActual, String nivelMayor, String completoNievelMayot,
-                   String cantAprobados, String nacimientoPais, String nacimientoProvincia,
-                   String nacimientoLocalidad, String viviaHaceCincoAnios, String haceCincoAniosNacimientoPais,
-                   String haceCincoAniosNacimientoProvincia, String haceCincoAniosNacimientoLocalidad,
-                   String coberturaSalud, String cobraJubOPen, String queCobra, String indigena,
-                   String puebloIndigina, String hablaLenguaIndigena, String afrodescendiente,
-                   String semPasadTrabajo, String semPasadChanga, String semPasadFalto, String cuatroSemBusco,
-                   String tieneTrab, int hijosNacidos, int hijosVivos, LocalDate fechaNacUltimoHijo) {
+                   String gradoAnioActual, String nivelMayor, String completoNievelMayor, String cantAprobados,
+                   String nacimientoPais, String nacimientoProvincia, String nacimientoLocalidad,
+                   String viviaHaceCincoAnios, String haceCincoAniosNacimientoPais, String haceCincoAniosNacimientoProvincia, String haceCincoAniosNacimientoLocalidad, String coberturaSalud, String cobraJubOPen, String queCobra, String indigena, String puebloIndigina, String hablaLenguaIndigena, String afrodescendiente, String semPasadTrabajo, String semPasadChanga, String semPasadFalto, String cuatroSemBusco, String tieneTrab, String estadoTrabajo, String trabajoDescJubi, String trabajoAportJubi, String actividadTrabajo, String detalleTrabajo, int hijosNacidos, int hijosVivos, LocalDate fechaNacUltimoHijo) {
         this.nroDni = nroDni;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -62,7 +62,7 @@ public class Persona {
         this.nivel = nivel;
         this.gradoAnioActual = gradoAnioActual;
         this.nivelMayor = nivelMayor;
-        this.completoNievelMayot = completoNievelMayot;
+        this.completoNievelMayor = completoNievelMayor;
         this.cantAprobados = cantAprobados;
         this.nacimientoPais = nacimientoPais;
         this.nacimientoProvincia = nacimientoProvincia;
@@ -83,6 +83,11 @@ public class Persona {
         this.semPasadFalto = semPasadFalto;
         this.cuatroSemBusco = cuatroSemBusco;
         this.tieneTrab = tieneTrab;
+        this.estadoTrabajo = estadoTrabajo;
+        this.trabajoDescJubi = trabajoDescJubi;
+        this.trabajoAportJubi = trabajoAportJubi;
+        this.actividadTrabajo = actividadTrabajo;
+        this.detalleTrabajo = detalleTrabajo;
         this.hijosNacidos = hijosNacidos;
         this.hijosVivos = hijosVivos;
         this.fechaNacUltimoHijo = fechaNacUltimoHijo;
@@ -184,12 +189,12 @@ public class Persona {
         this.nivelMayor = nivelMayor;
     }
 
-    public String getCompletoNievelMayot() {
-        return completoNievelMayot;
+    public String getCompletoNievelMayor() {
+        return completoNievelMayor;
     }
 
-    public void setCompletoNievelMayot(String completoNievelMayot) {
-        this.completoNievelMayot = completoNievelMayot;
+    public void setCompletoNievelMayor(String completoNievelMayor) {
+        this.completoNievelMayor = completoNievelMayor;
     }
 
     public String getCantAprobados() {
@@ -350,6 +355,46 @@ public class Persona {
 
     public void setTieneTrab(String tieneTrab) {
         this.tieneTrab = tieneTrab;
+    }
+
+    public String getEstadoTrabajo() {
+        return estadoTrabajo;
+    }
+
+    public void setEstadoTrabajo(String estadoTrabajo) {
+        this.estadoTrabajo = estadoTrabajo;
+    }
+
+    public String getTrabajoDescJubi() {
+        return trabajoDescJubi;
+    }
+
+    public void setTrabajoDescJubi(String trabajoDescJubi) {
+        this.trabajoDescJubi = trabajoDescJubi;
+    }
+
+    public String getTrabajoAportJubi() {
+        return trabajoAportJubi;
+    }
+
+    public void setTrabajoAportJubi(String trabajoAportJubi) {
+        this.trabajoAportJubi = trabajoAportJubi;
+    }
+
+    public String getActividadTrabajo() {
+        return actividadTrabajo;
+    }
+
+    public void setActividadTrabajo(String actividadTrabajo) {
+        this.actividadTrabajo = actividadTrabajo;
+    }
+
+    public String getDetalleTrabajo() {
+        return detalleTrabajo;
+    }
+
+    public void setDetalleTrabajo(String detalleTrabajo) {
+        this.detalleTrabajo = detalleTrabajo;
     }
 
     public int getHijosNacidos() {

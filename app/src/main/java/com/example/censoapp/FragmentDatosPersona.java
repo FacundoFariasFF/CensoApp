@@ -80,7 +80,10 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
     ArrayList<String> seleccionado = new ArrayList<>();
 
     static List<Persona> personaList = new ArrayList<>(); // lista con los datos de las personas esto deberia ir a la db
-    static String[] respuestasPersona = new String[30];
+    //static String[] respuestasPersona = new String[30];
+    static String[] respuestasPersona = {"","","","","","","","","","","","","","","","","","","","","","","","","","","","0","0","01/01/9999",};
+
+
     String opcionRespuesta =""; // RadioGroupMultiple, RadioGroupBoolean, EditText;
     int canTextView = 1;
     int cantEditTextTexto = 0;
@@ -275,7 +278,7 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
                 break;
             case 24:opcionRespuesta="RadioGroupMultiple";
                 opciones=opEstadoTrabajo;
-                txtTitulo.setText("¿Cómo realiza su trabajo?");
+                txtTitulo.setText("¿Cómo realiza su trabajo principal?");
                 break;
             case 25:opcionRespuesta="RadioGroupMultiple";
                 opciones=opBoolean;
@@ -447,15 +450,15 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
                 break;
             case 8: respuestasPersona[7] = seleccionado.get(0); //cantAprobados
                 break;
-            case 9: respuestasPersona[8] = seleccionado.get(0); //nacimientoPais
-                respuestasPersona[9] = seleccionado.get(1); //nacimientoProvincia
-                respuestasPersona[10] = seleccionado.get(2); //nacimientoLocalidad
+            case 9: respuestasPersona[8] = seleccionado.get(1); //nacimientoPais
+                    respuestasPersona[9] = seleccionado.get(2); //nacimientoProvincia
+                    respuestasPersona[10] = seleccionado.get(3); //nacimientoLocalidad
                 break;
             case 10: respuestasPersona[11] = seleccionado.get(0); //viviaHaceCincoAnios
                 break;
             case 11: respuestasPersona[12] = seleccionado.get(0); //haceCincoAniosNacimientoPais
-                respuestasPersona[13] = seleccionado.get(1); //haceCincoAniosNacimientoProvincia
-                respuestasPersona[14] = seleccionado.get(2); //haceCincoAniosNacimientoLocalidad
+                     respuestasPersona[13] = seleccionado.get(1); //haceCincoAniosNacimientoProvincia
+                     respuestasPersona[14] = seleccionado.get(2); //haceCincoAniosNacimientoLocalidad
                 break;
             case 12: respuestasPersona[15] = seleccionado.get(0); //coberturaSalud
                 break;
@@ -481,10 +484,20 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
                 break;
             case 23: respuestasPersona[26] = seleccionado.get(0); //tieneTrab
                 break;
+            case 24: respuestasPersona[26] = seleccionado.get(0); //tieneTrab -
+                break;
+            case 25: respuestasPersona[26] = seleccionado.get(0); //tieneTrab -
+                break;
+            case 26: respuestasPersona[26] = seleccionado.get(0); //tieneTrab -
+                break;
+            case 27: respuestasPersona[26] = seleccionado.get(0); //tieneTrab -
+                break;
+            case 28: respuestasPersona[26] = seleccionado.get(0); //tieneTrab -
+                break;
             case 29: respuestasPersona[27] = seleccionado.get(0); //hijosNacidos
                 break;
             case 30: respuestasPersona[28] = seleccionado.get(0); //hijosVivos
-                respuestasPersona[29] = seleccionado.get(1); //fechaNacUltimoHijo
+                     respuestasPersona[29] = seleccionado.get(1); //fechaNacUltimoHijo
                 break;
             default:;
         }
@@ -494,33 +507,55 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
     public void GenerarListaPersona(){
         List<PersonaAgregada> personaAgregadaList = new ArrayList<>();
         personaAgregadaList=FragmentAgregarPersona.personaAgregadaList; // es una lista de personas
-        //IPORTANTE buscar solucon a esto porq traemos una persona a la vez
+        //IPORTANTE buscar solucon a esto porq traemos una persona a la vez el get(0) deberia ser un get(nroPersona)
+        // y que ese numero persona venga del cargar personas
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatterbarra = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dateFechaNacimiento = LocalDate.parse((String.valueOf(personaAgregadaList.get(0).getFechaNacimiento())), formatter);
-        LocalDate dateFechaNacUltimoHijo = LocalDate.parse(respuestasPersona[29],formatter);
+        LocalDate dateFechaNacUltimoHijo;
+        dateFechaNacUltimoHijo = LocalDate.parse(respuestasPersona[29], formatterbarra);
 
+        // lo comentado es el dato del parametro correspondiente de Persona
         Persona persona = new Persona(
-                Integer.parseInt(String.valueOf((personaAgregadaList.get(0).getNroDni()))),
-                String.valueOf(personaAgregadaList.get(0).getNombre()),
-                String.valueOf(personaAgregadaList.get(0).getApellido()),
-                String.valueOf(personaAgregadaList.get(0).getSexo()),
-                dateFechaNacimiento,
-                "relacionReferencia",
-                respuestasPersona[0], respuestasPersona[1], respuestasPersona[2],
-                respuestasPersona[3], respuestasPersona[4], respuestasPersona[5],
-                respuestasPersona[6], respuestasPersona[7], respuestasPersona[8],
-                respuestasPersona[9], respuestasPersona[10], respuestasPersona[11],
-                respuestasPersona[12], respuestasPersona[13], respuestasPersona[14],
-                respuestasPersona[15], respuestasPersona[16], respuestasPersona[17],
-                respuestasPersona[18], respuestasPersona[19], respuestasPersona[20],
-                respuestasPersona[21], respuestasPersona[22], respuestasPersona[23],
-                respuestasPersona[24], respuestasPersona[25], respuestasPersona[26],
-                Integer.parseInt(respuestasPersona[27]),
-                Integer.parseInt(respuestasPersona[28]),
-                dateFechaNacUltimoHijo);
+                Integer.parseInt(String.valueOf((personaAgregadaList.get(0).getNroDni()))), //int nroDni
+                String.valueOf(personaAgregadaList.get(0).getNombre()), //String nombre
+                String.valueOf(personaAgregadaList.get(0).getApellido()), //String apellido
+                String.valueOf(personaAgregadaList.get(0).getSexo()), //String sexo
+                dateFechaNacimiento, // LocalDate fechaNacimiento
+                "relacionReferencia", //String relacionReferencia
+                respuestasPersona[0], //String genero
+                respuestasPersona[1], //String discapacidad
+                respuestasPersona[2], //String cursa
+                respuestasPersona[3], //String nivel
+                respuestasPersona[4], //String gradoAnioActual
+                respuestasPersona[5], //String nivelMayor
+                respuestasPersona[6], //String completoNievelMayor
+                respuestasPersona[7], //String cantAprobados
+                respuestasPersona[8], //String nacimientoPais
+                respuestasPersona[9], //String nacimientoProvincia
+                respuestasPersona[10], //String nacimientoLocalidad
+                respuestasPersona[11], //String viviaHaceCincoAnios
+                respuestasPersona[12], //String haceCincoAniosNacimientoPais
+                respuestasPersona[13], //String haceCincoAniosNacimientoProvincia
+                respuestasPersona[14], //String haceCincoAniosNacimientoLocalidad
+                respuestasPersona[15], //String coberturaSalud
+                respuestasPersona[16], //String cobraJubOPen
+                respuestasPersona[17], //String queCobra
+                respuestasPersona[18], //String indigena
+                respuestasPersona[19], //String puebloIndigina
+                respuestasPersona[20], //String hablaLenguaIndigena
+                respuestasPersona[21], //String afrodescendiente
+                respuestasPersona[22], //String semPasadTrabajo
+                respuestasPersona[23], //String semPasadChanga
+                respuestasPersona[24], //String semPasadFalto
+                respuestasPersona[25], //String cuatroSemBusco
+                respuestasPersona[26], //String tieneTrab
+                Integer.parseInt(respuestasPersona[27]), //int hijosNacidos
+                Integer.parseInt(respuestasPersona[28]), //int hijosVivos
+                dateFechaNacUltimoHijo); //LocalDate fechaNacUltimoHijo
 
-        personaList.add(persona); // lista con todos los datos
+        personaList.add(persona); //lista con todos los datos de la persona menos trabajo
         Toast.makeText(getContext(),"Se guardaron los datos de la persona",Toast.LENGTH_SHORT).show();
     }
     public void ControlPasos(){
