@@ -33,7 +33,8 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
     TextView txtNroPersona;
     EditText edtextFechaNacimiento;
     Spinner spinnerSexo;
-    int nroCant=0, nroPersona=0;  //nro cant es la cantidad de personas que viven en la vivienda (deberi a ir en la db de vivienda)
+    static int nroCant=0; //nro cant es la cantidad de personas que viven en la vivienda (deberia ir en la db de vivienda)
+    int nroPersona=0;
     String nombre,apellido,sexo;
     int nroDNI;
     LocalDate fechaNacimiento;
@@ -146,23 +147,12 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
         });
         btnContinuarAgregar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //DESCOMENTAR LA LINEA SIGUIENTE PARA EL FUNCIONAMIENTO NORMAL
-                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos, FragmentDatosPersona.newInstance(1)).commit();
-
-                ArrayList<Integer> pasos = new ArrayList<>();
-                ArrayList<Integer> pasosAux = new ArrayList<>();
-                for (int i=0; i<=31; i++){
-                    pasos.add(i,i);
-                }
-                pasosAux = pasos;
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos, FragmentDatosPersona.newInstance(1,pasos,pasosAux,FragmentDatosPersona.respuestasPersona)).commit();
-                //stepView.go(2,true); // esta instruccion pasa al siguiente paso
-                //stepView.done(true);
+                stepView.done(true); //marca el step como hecho
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view,FragmentIngresarDatos.newInstance(3)).commit();
             }
         });
         btnVolverAgregar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                stepView.go(0,true);
                 stepView.done(false); //marcado como no hecho
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(16,FragmentDatosVivienda.respuestasVivienda)).commit();
                 //Toast.makeText(getContext(),"Volver",Toast.LENGTH_SHORT).show();

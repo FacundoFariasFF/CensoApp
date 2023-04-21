@@ -73,7 +73,6 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
     ArrayList<Integer> deshabilitaOpSi = new ArrayList<>();
     ArrayList<String> deshabilitaCondicion = new ArrayList<>();
     ArrayList<Integer> deshabilita = new ArrayList<>();
-    private int indicePaso;
     ArrayList<Integer> pasos = new ArrayList<>();
     ArrayList<Integer> pasosAux = new ArrayList<>();
     String[] opciones = new String[0];
@@ -81,10 +80,12 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
 
     static List<Persona> personaList = new ArrayList<>(); // lista con los datos de las personas esto deberia ir a la db
     //static String[] respuestasPersona = new String[30];
-    static String[] respuestasPersona = {"","","","","","","","","","","","","","","","","","","","","","","","","","","","0","0","01/01/9999",};
+    static String[] respuestasPersona = {"","","","","","","","","","","","","","","","","","","","","","","","","","","","0","0","0","0","0","0","0","01/01/9999",};
 
-
+    List<PersonaAgregada> personaAgregadaList = new ArrayList<>();
     String opcionRespuesta =""; // RadioGroupMultiple, RadioGroupBoolean, EditText;
+    private int nroPersona;
+    private int indicePaso;
     int canTextView = 1;
     int cantEditTextTexto = 0;
     int cantEditTextNro = 0;
@@ -96,6 +97,7 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
     TextView txtTituloAuxDos;
     TextView txtTituloFecha;
     TextView txtCantPreguntasPersona;
+    TextView txtCantPersona;
     EditText edtextNro;
     EditText edtextTexto;
     EditText edtextTextoAux;
@@ -104,9 +106,10 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
         // Required empty public constructor
     }
 
-    public static FragmentDatosPersona newInstance(int indicePaso,ArrayList<Integer>pasos,ArrayList<Integer>pasosAux, String[] respuestasPersona) {
+    public static FragmentDatosPersona newInstance(int nroPersona, int indicePaso,ArrayList<Integer>pasos,ArrayList<Integer>pasosAux, String[] respuestasPersona) {
         FragmentDatosPersona fragment = new FragmentDatosPersona();
         Bundle args = new Bundle();
+        args.putInt("nroPersona", nroPersona);
         args.putInt("indicePaso", indicePaso);
         args.putIntegerArrayList("pasos", pasos);
         args.putIntegerArrayList("pasosAux", pasosAux);
@@ -119,6 +122,7 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            nroPersona = getArguments().getInt("nroPersona");
             indicePaso = getArguments().getInt("indicePaso");
             pasos = getArguments().getIntegerArrayList("pasos");
             pasosAux = getArguments().getIntegerArrayList("pasosAux");
@@ -136,6 +140,7 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
         rgPersona = (RadioGroup)rootView.findViewById(R.id.radiog_persona);
         //Spinner spinnerPersona = (Spinner) rootView.findViewById(R.id.spinner_persona);
         txtCantPreguntasPersona= (TextView) rootView.findViewById(R.id.txt_cant_preguntas_persona);
+        txtCantPersona= (TextView) rootView.findViewById(R.id.txt_cant_persona);
         txtTitulo= (TextView) rootView.findViewById(R.id.txt_titulo_persona);
         txtTituloAux= (TextView) rootView.findViewById(R.id.txt_titulo_aux);
         txtTituloAuxDos= (TextView) rootView.findViewById(R.id.txt_titulo_aux_dos);
@@ -147,9 +152,81 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
         edtextFechaPersona = (EditText) rootView.findViewById(R.id.edtext_fecha_persona);
         edtextFechaPersona.setOnClickListener(this);
 
-        txtCantPreguntasPersona.setText("Pregunta sobre la Persona "+indicePaso+" de "+(pasos.size()-1));
+        personaAgregadaList=FragmentAgregarPersona.personaAgregadaList; // es la lista de personas de las personas del hogar con sus datos de carga
+        txtCantPersona.setText("Persona "+(nroPersona+1)+" de "+(personaAgregadaList.size()));
+        txtCantPreguntasPersona.setText("Pregunta sobre "+ personaAgregadaList.get(nroPersona).getNombre()+", " + indicePaso+" de "+(pasos.size()-1));
+
+        GenerarOpciones();
+
+        CrearOpcionRespuesta(opcionRespuesta);
+
+        //// escucha en el radiogroup
+        rgPersona.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioSeleccionado;
+                for (int i =0; i < opciones.length; i++){
+                    radioSeleccionado= (RadioButton) rgPersona.getChildAt(i);
+                    if((radioSeleccionado.getId())==checkedId){
+                        seleccionado.add(opciones[i]);
+                        //Toast.makeText(getContext(),"Seleccionaste la opcion: "+ opciones[i],Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+        /////
+        btnContinuarDatosPersona.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ObtenerRespuesta();
+                //aca validar si hay resouesta vacia como esta en FragmentDatosVivienda
+                pasosAux = (ArrayList<Integer>)pasos.clone();
+                if(indicePaso+2<(pasos.size()-1)){
+                    ControlPasos();
+                    GuardarRespuesta();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace
+                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosPersona.newInstance
+                                    (nroPersona,indicePaso+1,pasos,pasosAux,respuestasPersona)).commit();
+                }else {
+                    GenerarListaPersona();
+                    if (nroPersona<personaAgregadaList.size()-1){
+                        ArrayList<Integer> pasos = new ArrayList<>();
+                        ArrayList<Integer> pasosAux = new ArrayList<>();
+                        for (int i=0; i<=31; i++){ //31 son las preguntas sobre la personas/(los pasos de persona)
+                            pasos.add(i,i);
+                        }
+                        pasosAux = pasos;
+                        LimpiarRespuestas();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace
+                                (R.id.fragment_container_view_ingresar_datos,FragmentDatosPersona.newInstance
+                                        (nroPersona+1,1,pasos,pasosAux,respuestasPersona)).commit();
+                    }else {
+                        stepView.done(true); //marca el step como hecho
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view, FragmentIngresarDatos.newInstance(4)).commit();
+                    }
+                }
+            }
+        });
+        btnVolverDatosPersona.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                pasos = (ArrayList<Integer>)pasosAux.clone();
+                if (indicePaso>1){
+                    getActivity().getSupportFragmentManager().beginTransaction().replace
+                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosPersona.newInstance(nroPersona,indicePaso-1,pasos,pasosAux,respuestasPersona)).commit();
+                } else{
+                    stepView.done(false); //marcado como no hecho
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentAgregarPersona.newInstance()).commit();
+                }
+            }
+        });
+        /////
 
 
+
+
+        return rootView;
+    }
+    public void GenerarOpciones(){
         // validad que pasos saltea o no dependiendo de la pregunta anterior
         //validar si es mujer o +14 esas cosas
         switch (pasos.get(indicePaso)){
@@ -247,7 +324,7 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
                 opciones=opBoolean;
                 txtTitulo.setText("¿Se reconoce afrodescendiente o tiene antepasados negros o africanos?");
                 break;
-                ///Preguntas para los mayores de 14 años:
+            ///Preguntas para los mayores de 14 años:
             case 19:opcionRespuesta="RadioGroupMultiple";
                 opciones=opBoolean;
                 txtTitulo.setText("Durante la semana pasada ¿trabajó por lo menos una hora, sin contar las tareas domésticas de su hogar?");
@@ -264,7 +341,7 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
                 opciones=opBoolean;
                 txtTitulo.setText("Durante las últimas cuatro semanas ¿buscó trabajo de alguna manera?");
                 break;
-                ////Preguntas sobre el trabajo
+            ////Preguntas sobre el trabajo
             case 23:opcionRespuesta="EditText";
                 txtTitulo.setText("¿Actualmente cuántos trabajos tiene?(si no tiene trabajo ingrese cero)");
                 deshabilitaCondicion.add("0");
@@ -296,7 +373,7 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
                 txtTitulo.setText("¿Cómo describiría en detalle esa actividad principal de la empresa, negocio, institución en la que trabaja o del trabajo que realiza por su cuenta?");
                 cantEditTextTexto = 1;
                 break;
-                //mujeres de 14 a 49 años
+            //mujeres de 14 a 49 años
             case 29: opcionRespuesta="EditText";
                 txtTitulo.setText("¿Cuántas hijas e hijos nacidos vivos tuvo en total?");
                 //si es cero deshabilita 30
@@ -313,64 +390,6 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
                 break;
             default:;
         }
-
-        CrearOpcionRespuesta(opcionRespuesta);
-
-        //// escucha en el radiogroup
-        rgPersona.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton radioSeleccionado;
-                for (int i =0; i < opciones.length; i++){
-                    radioSeleccionado= (RadioButton) rgPersona.getChildAt(i);
-                    if((radioSeleccionado.getId())==checkedId){
-                        seleccionado.add(opciones[i]);
-                        //Toast.makeText(getContext(),"Seleccionaste la opcion: "+ opciones[i],Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-
-        /////
-        btnContinuarDatosPersona.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //stepView.go(2,true); // esta instruccion pasa al siguiente paso
-                //stepView.done(true);
-                ObtenerRespuesta();
-                pasosAux = (ArrayList<Integer>)pasos.clone();
-                if(indicePaso<(pasos.size()-1)){
-                    ControlPasos();
-                    GuardarRespuesta();
-                    getActivity().getSupportFragmentManager().beginTransaction().replace
-                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosPersona.newInstance(indicePaso+1,pasos,pasosAux,respuestasPersona)).commit();
-                }else {
-                    GenerarListaPersona();
-                    stepView.go(1, true); // esta instruccion pasa al siguiente paso
-                    stepView.done(true); //marcado como hecho
-                    //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos, FragmentAgregarPersona.newInstance()).commit();
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view,FragmentComprobante.newInstance()).commit();
-                }
-            }
-        });
-        btnVolverDatosPersona.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                stepView.go(0,true);
-                stepView.done(false); //marcado como no hecho
-                pasos = (ArrayList<Integer>)pasosAux.clone();
-                if (indicePaso>1){
-                    getActivity().getSupportFragmentManager().beginTransaction().replace
-                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosPersona.newInstance(indicePaso-1,pasos,pasosAux,respuestasPersona)).commit();
-                } else{
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentAgregarPersona.newInstance()).commit();
-                }
-            }
-        });
-        /////
-
-
-
-
-        return rootView;
     }
     public void CrearOpcionRespuesta(String opcionRespuesta){
         switch (this.opcionRespuesta) {
@@ -484,20 +503,20 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
                 break;
             case 23: respuestasPersona[26] = seleccionado.get(0); //tieneTrab
                 break;
-            case 24: respuestasPersona[26] = seleccionado.get(0); //tieneTrab -
+            case 24: respuestasPersona[27] = seleccionado.get(0); //estadoTrabajo
                 break;
-            case 25: respuestasPersona[26] = seleccionado.get(0); //tieneTrab -
+            case 25: respuestasPersona[28] = seleccionado.get(0); //trabajoDescJubi
                 break;
-            case 26: respuestasPersona[26] = seleccionado.get(0); //tieneTrab -
+            case 26: respuestasPersona[29] = seleccionado.get(0); //trabajoAportJubi
                 break;
-            case 27: respuestasPersona[26] = seleccionado.get(0); //tieneTrab -
+            case 27: respuestasPersona[30] = seleccionado.get(0); //actividadTrabajo
                 break;
-            case 28: respuestasPersona[26] = seleccionado.get(0); //tieneTrab -
+            case 28: respuestasPersona[31] = seleccionado.get(1); //detalleTrabajo
                 break;
-            case 29: respuestasPersona[27] = seleccionado.get(0); //hijosNacidos
+            case 29: respuestasPersona[32] = seleccionado.get(0); //hijosNacidos
                 break;
-            case 30: respuestasPersona[28] = seleccionado.get(0); //hijosVivos
-                     respuestasPersona[29] = seleccionado.get(1); //fechaNacUltimoHijo
+            case 30: respuestasPersona[33] = seleccionado.get(0); //hijosVivos
+                     respuestasPersona[34] = seleccionado.get(1); //fechaNacUltimoHijo
                 break;
             default:;
         }
@@ -505,23 +524,18 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
 
     }
     public void GenerarListaPersona(){
-        List<PersonaAgregada> personaAgregadaList = new ArrayList<>();
-        personaAgregadaList=FragmentAgregarPersona.personaAgregadaList; // es una lista de personas
-        //IPORTANTE buscar solucon a esto porq traemos una persona a la vez el get(0) deberia ser un get(nroPersona)
-        // y que ese numero persona venga del cargar personas
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter formatterbarra = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dateFechaNacimiento = LocalDate.parse((String.valueOf(personaAgregadaList.get(0).getFechaNacimiento())), formatter);
+        LocalDate dateFechaNacimiento = LocalDate.parse((String.valueOf(personaAgregadaList.get(nroPersona).getFechaNacimiento())), formatter);
         LocalDate dateFechaNacUltimoHijo;
-        dateFechaNacUltimoHijo = LocalDate.parse(respuestasPersona[29], formatterbarra);
+        dateFechaNacUltimoHijo = LocalDate.parse(respuestasPersona[34], formatterbarra);
 
         // lo comentado es el dato del parametro correspondiente de Persona
         Persona persona = new Persona(
-                Integer.parseInt(String.valueOf((personaAgregadaList.get(0).getNroDni()))), //int nroDni
-                String.valueOf(personaAgregadaList.get(0).getNombre()), //String nombre
-                String.valueOf(personaAgregadaList.get(0).getApellido()), //String apellido
-                String.valueOf(personaAgregadaList.get(0).getSexo()), //String sexo
+                Integer.parseInt(String.valueOf((personaAgregadaList.get(nroPersona).getNroDni()))), //int nroDni
+                String.valueOf(personaAgregadaList.get(nroPersona).getNombre()), //String nombre
+                String.valueOf(personaAgregadaList.get(nroPersona).getApellido()), //String apellido
+                String.valueOf(personaAgregadaList.get(nroPersona).getSexo()), //String sexo
                 dateFechaNacimiento, // LocalDate fechaNacimiento
                 "relacionReferencia", //String relacionReferencia
                 respuestasPersona[0], //String genero
@@ -551,11 +565,22 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
                 respuestasPersona[24], //String semPasadFalto
                 respuestasPersona[25], //String cuatroSemBusco
                 respuestasPersona[26], //String tieneTrab
-                Integer.parseInt(respuestasPersona[27]), //int hijosNacidos
-                Integer.parseInt(respuestasPersona[28]), //int hijosVivos
+                respuestasPersona[27], //String estadoTrabajo
+                respuestasPersona[28], //String trabajoDescJubi
+                respuestasPersona[29], //String trabajoAportJubi
+                respuestasPersona[30], //String actividadTrabajo
+                respuestasPersona[31], //String detalleTrabajo
+                Integer.parseInt(respuestasPersona[32]), //int hijosNacidos
+                Integer.parseInt(respuestasPersona[33]), //int hijosVivos
                 dateFechaNacUltimoHijo); //LocalDate fechaNacUltimoHijo
 
-        personaList.add(persona); //lista con todos los datos de la persona menos trabajo
+        personaList.add(persona);
+
+        AdminSQLiteOpenHelper.getInstance(getActivity()).EliminarPersona();
+
+
+        AdminSQLiteOpenHelper.getInstance(getActivity()).RegistrarPersona(personaList);
+
         Toast.makeText(getContext(),"Se guardaron los datos de la persona",Toast.LENGTH_SHORT).show();
     }
     public void ControlPasos(){
@@ -595,6 +620,9 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
             }
         }
         //seleccionado.clear();
+    }
+    public void LimpiarRespuestas(){
+        respuestasPersona = new String[]{"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "0", "0", "0", "0", "0", "0", "0", "01/01/9999",};
     }
 
 // radiobutton

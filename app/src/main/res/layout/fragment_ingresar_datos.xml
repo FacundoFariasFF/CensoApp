@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            app:sv_animationType="Line"
+            app:sv_animationType="All"
             app:sv_doneCircleColor="@color/colorAccent"
             app:sv_doneCircleRadius="12dp"
             app:sv_doneStepLineColor="@color/colorAccent"
@@ -44,6 +44,7 @@
             app:sv_selectedStepNumberColor="@color/colorPrimary"
             app:sv_selectedTextColor="@color/colorAccent"
             app:sv_stepLineWidth="1dp"
+            app:sv_steps="@array/steps"
             app:sv_stepNumberTextSize="12sp"
             app:sv_stepPadding="4dp"
             app:sv_stepViewStyle="@style/StepView"/>

@@ -4,6 +4,7 @@ import static com.example.censoapp.FragmentIngresarDatos.stepView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,9 +101,10 @@ public class FragmentDatosVivienda extends Fragment {
     String[] opciones = new String[0];
     static String[] respuestasVivienda = new String[17];
 
-    String seleccionado;
+    String seleccionado="";
     private int paso;
-
+    Boolean radiobuttom;
+    TextView txtTitulo;
 
     public FragmentDatosVivienda() {
         // Required empty public constructor
@@ -134,22 +136,103 @@ public class FragmentDatosVivienda extends Fragment {
         Button btnVolverVivienda = (Button) rootView.findViewById(R.id.btn_volver_vivienda);
         RadioGroup rgVivienda = (RadioGroup)rootView.findViewById(R.id.radiog_vivienda);
         Spinner spinnerCantidad = (Spinner) rootView.findViewById(R.id.spinner_cantidad);
-        TextView txtTitulo= (TextView) rootView.findViewById(R.id.txt_titulo_vivienda);
         TextView txtCantPreguntasVivienda= (TextView) rootView.findViewById(R.id.txt_cant_preguntas_viviendas);
-
+        txtTitulo= (TextView) rootView.findViewById(R.id.txt_titulo_vivienda);
 
         ////
         txtCantPreguntasVivienda.setText("Pregunta sobre la Vivienda "+paso+" de 16");
 
-        Boolean radiobuttom = true;
+        radiobuttom = true;
 
+        GenerarOpciones();
+
+        if(radiobuttom==false){ //si radio radiobuttom es false signific a que la pregunta no tiene opcioines de seleccion
+            spinnerCantidad.setVisibility(View.VISIBLE);
+            rgVivienda.setVisibility(View.GONE);
+            spinnerCantidad.setAdapter(new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_spinner_dropdown_item, opciones));
+        }else {
+            for (String opcion : opciones) {
+                RadioButton nuevoRadio = crearRadioButton(opcion);
+                rgVivienda.addView(nuevoRadio);
+            }
+        }
+
+
+        //// escucha en el radiogroup
+        rgVivienda.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioSeleccionado;
+                for (int i =0; i < opciones.length; i++){
+                    radioSeleccionado= (RadioButton) rgVivienda.getChildAt(i);
+                    if((radioSeleccionado.getId())==checkedId){
+                        seleccionado = opciones[i];
+                        //Toast.makeText(getContext(),"Seleccionaste la opcion: "+ opciones[i],Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        //// spinner
+
+        spinnerCantidad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String cantidad = (String) spinnerCantidad.getSelectedItem();
+                seleccionado = cantidad;
+                //Toast.makeText(getContext(),"Seleccionaste la opcion: "+ cantidad,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // No seleccionaron nada
+            }
+        });
+
+       ////// botones continuar y volver
+        btnContinuarVivienda.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (!seleccionado.equals("")) {
+                    //Toast.makeText(getContext(),"Seleccionaste la opcion: "+ seleccionado,Toast.LENGTH_SHORT).show();
+                    GuardarRespuesta();
+                    if (paso < 16) {
+                        getActivity().getSupportFragmentManager().beginTransaction().replace
+                                (R.id.fragment_container_view_ingresar_datos, FragmentDatosVivienda.newInstance(paso + 1, respuestasVivienda)).commit();
+                    } else {
+                        GenerarListaVivienda();
+                        stepView.done(true); //marca el step como hecho
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view, FragmentIngresarDatos.newInstance(2)).commit();
+                    }
+                }else {
+                    Toast.makeText(getContext(),"Debe seleccionar una opcion para continuar",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        btnVolverVivienda.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //Toast.makeText(getContext(),"Volver",Toast.LENGTH_SHORT).show();
+                if (paso>1){
+                    getActivity().getSupportFragmentManager().beginTransaction().replace
+                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(paso-1,respuestasVivienda)).commit();
+                } else{
+                    stepView.done(false); //marcado como no hecho
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view,FragmentInicio.newInstance()).commit();
+                }
+
+            }
+        });
+
+        return rootView;
+    }
+
+    public void GenerarOpciones(){
         switch (paso){
             case 1: opciones=opTipoVivienda;
                 txtTitulo.setText("Seleccione el Tipo de vivienda.");
-            break;
+                break;
             case 2: opciones=opSituacion;
                 txtTitulo.setText("Situacion de la vivienda");
-            break;
+                break;
             case 3: opciones=opDocumentacion;
                 txtTitulo.setText("Documentación de la vivienda.");
                 break;
@@ -198,130 +281,63 @@ public class FragmentDatosVivienda extends Fragment {
 
             default:;
         }
-
-        if(radiobuttom==false){ //si radio radiobuttom es false signific a que la pregunta no tiene opcioines de seleccion
-            spinnerCantidad.setVisibility(View.VISIBLE);
-            rgVivienda.setVisibility(View.GONE);
-            spinnerCantidad.setAdapter(new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_spinner_dropdown_item, opciones));
-        }else {
-            for (String opcion : opciones) {
-                RadioButton nuevoRadio = crearRadioButton(opcion);
-                rgVivienda.addView(nuevoRadio);
-            }
+    }
+    public void GuardarRespuesta(){
+        switch (paso){
+            case 1: respuestasVivienda[1] = seleccionado;
+                break;
+            case 2: respuestasVivienda[14] = seleccionado;
+                break;
+            case 3: respuestasVivienda[15] = seleccionado;
+                break;
+            case 4: respuestasVivienda[2] = seleccionado;
+                break;
+            case 5: respuestasVivienda[3] = seleccionado;
+                break;
+            case 6: respuestasVivienda[4] = seleccionado;
+                break;
+            case 7: respuestasVivienda[5] = seleccionado;
+                break;
+            case 8: respuestasVivienda[6] = seleccionado;
+                break;
+            case 9: respuestasVivienda[7] = seleccionado;
+                break;
+            case 10: respuestasVivienda[8] = seleccionado;
+                break;
+            case 11: respuestasVivienda[9] = seleccionado;
+                break;
+            case 12: respuestasVivienda[10] = seleccionado;
+                break;
+            case 13: respuestasVivienda[11] = seleccionado;
+                break;
+            case 14: respuestasVivienda[12] = seleccionado;
+                break;
+            case 15: respuestasVivienda[13] = seleccionado;
+                break;
+            case 16: respuestasVivienda[16] = seleccionado;
+                break;
+            default:respuestasVivienda[0] = "0";
         }
-
-
-        //// escucha en el radiogroup
-        rgVivienda.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton radioSeleccionado;
-                for (int i =0; i < opciones.length; i++){
-                    radioSeleccionado= (RadioButton) rgVivienda.getChildAt(i);
-                    if((radioSeleccionado.getId())==checkedId){
-                        seleccionado = opciones[i];
-                        //Toast.makeText(getContext(),"Seleccionaste la opcion: "+ opciones[i],Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-        //// spinner
-
-        spinnerCantidad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String cantidad = (String) spinnerCantidad.getSelectedItem();
-                seleccionado = cantidad;
-                //Toast.makeText(getContext(),"Seleccionaste la opcion: "+ cantidad,Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                // No seleccionaron nada
-            }
-        });
-
-       ////// botones continuar y volver
-        btnContinuarVivienda.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //Toast.makeText(getContext(),"Seleccionaste la opcion: "+ seleccionado,Toast.LENGTH_SHORT).show();
-                switch (paso){
-                    case 1: respuestasVivienda[1] = seleccionado;
-                        break;
-                    case 2: respuestasVivienda[14] = seleccionado;
-                        break;
-                    case 3: respuestasVivienda[15] = seleccionado;
-                        break;
-                    case 4: respuestasVivienda[2] = seleccionado;
-                        break;
-                    case 5: respuestasVivienda[3] = seleccionado;
-                        break;
-                    case 6: respuestasVivienda[4] = seleccionado;
-                        break;
-                    case 7: respuestasVivienda[5] = seleccionado;
-                        break;
-                    case 8: respuestasVivienda[6] = seleccionado;
-                        break;
-                    case 9: respuestasVivienda[7] = seleccionado;
-                        break;
-                    case 10: respuestasVivienda[8] = seleccionado;
-                        break;
-                    case 11: respuestasVivienda[9] = seleccionado;
-                        break;
-                    case 12: respuestasVivienda[10] = seleccionado;
-                        break;
-                    case 13: respuestasVivienda[11] = seleccionado;
-                        break;
-                    case 14: respuestasVivienda[12] = seleccionado;
-                        break;
-                    case 15: respuestasVivienda[13] = seleccionado;
-                        break;
-                    case 16: respuestasVivienda[16] = seleccionado;
-                        break;
-                    default:respuestasVivienda[0] = "0";
-                }
-
-               // Toast.makeText(getContext(),vivienda.tipo ,Toast.LENGTH_SHORT).show();
-                if(paso<16){
-                    getActivity().getSupportFragmentManager().beginTransaction().replace
-                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(paso+1,respuestasVivienda)).commit();
-                }else {
-                    respuestasVivienda[0] = "0";
-                    Vivienda vivienda = new Vivienda(respuestasVivienda[0],respuestasVivienda[1],respuestasVivienda[2],
-                            respuestasVivienda[3],respuestasVivienda[4],respuestasVivienda[5], respuestasVivienda[6],respuestasVivienda[7],
-                            Integer.parseInt(respuestasVivienda[8]),respuestasVivienda[9],respuestasVivienda[10],
-                            respuestasVivienda[11],Integer.parseInt(respuestasVivienda[12]),
-                            Integer.parseInt(respuestasVivienda[13]),respuestasVivienda[14],respuestasVivienda[15],respuestasVivienda[16]);
-
-                    viviendaList = new ArrayList<>();
-                    viviendaList.add(vivienda);
-
-                    stepView.go(1, true); // esta instruccion pasa al siguiente paso
-                    stepView.done(true); //marcado como hecho
-                    getActivity().getSupportFragmentManager().beginTransaction().replace
-                            (R.id.fragment_container_view_ingresar_datos, FragmentAgregarPersona.newInstance()).commit();
-                }
-            }
-        });
-        btnVolverVivienda.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //Toast.makeText(getContext(),"Volver",Toast.LENGTH_SHORT).show();
-                if (paso>1){
-                    getActivity().getSupportFragmentManager().beginTransaction().replace
-                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(paso-1,respuestasVivienda)).commit();
-                } else{
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view,FragmentInicio.newInstance()).commit();
-                }
-                //stepView.done(false); //marcado como no hecho
-            }
-        });
-        //////
-
-        return rootView;
     }
 
+    public void GenerarListaVivienda(){
+        respuestasVivienda[0] = "0";
+        Vivienda vivienda = new Vivienda(respuestasVivienda[0],respuestasVivienda[1],respuestasVivienda[2],
+                respuestasVivienda[3],respuestasVivienda[4],respuestasVivienda[5], respuestasVivienda[6],respuestasVivienda[7],
+                Integer.parseInt(respuestasVivienda[8]),respuestasVivienda[9],respuestasVivienda[10],
+                respuestasVivienda[11],Integer.parseInt(respuestasVivienda[12]),
+                Integer.parseInt(respuestasVivienda[13]),respuestasVivienda[14],respuestasVivienda[15],respuestasVivienda[16]);
 
+        viviendaList = new ArrayList<>();
+        viviendaList.add(vivienda);
+
+        AdminSQLiteOpenHelper.getInstance(getActivity()).EliminarVivienda();
+
+
+        AdminSQLiteOpenHelper.getInstance(getActivity()).RegistrarVivienda(viviendaList);
+
+        Toast.makeText(getContext(),"Se guardaron los datos de la vivienda",Toast.LENGTH_SHORT).show();
+    }
     public void Confirmacion(){
         FragmentDialogConfirmar dialogo = new FragmentDialogConfirmar();
         dialogo.show(getActivity().getSupportFragmentManager(), "dialogo");

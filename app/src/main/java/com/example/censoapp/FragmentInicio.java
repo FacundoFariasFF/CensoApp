@@ -80,7 +80,7 @@ public class FragmentInicio extends Fragment {
             public void continuar(FragmentDialogCodigo dialog) {
 
                //Toast.makeText(getContext(),"continuar ya ingresate el codigo",Toast.LENGTH_SHORT).show();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view,FragmentIngresarDatos.newInstance()).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view,FragmentIngresarDatos.newInstance(1)).commit();
             }
             @Override
             public void cancelar(FragmentDialogCodigo dialog) {
