@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -30,6 +32,7 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
             "X / Ninguna de las anteriores."
     };
 
+
     TextView txtNroPersona;
     EditText edtextFechaNacimiento;
     Spinner spinnerSexo;
@@ -38,6 +41,8 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
     String nombre,apellido,sexo;
     int nroDNI;
     LocalDate fechaNacimiento;
+    RecyclerView recyclerView;
+    PersonaAgregadaAdapter adapter;
     static List<PersonaAgregada> personaAgregadaList = new ArrayList<>(); // lista con los datos de las personas agregadas esto deberia ir a la db
 
     public FragmentAgregarPersona() {
@@ -63,6 +68,7 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
         Button btnVolverAgregar = (Button) rootView.findViewById(R.id.btn_volver_agregar);
         Button btnConfirmarCantidad = (Button) rootView.findViewById(R.id.btn_confirmar_cantidad_personas);
         Button btnAgregarPersona = (Button) rootView.findViewById(R.id.btn_agregar_persona);
+        TextView txtTituloAgregarPersona= (TextView) rootView.findViewById(R.id.txt_titulo_agregar_persona);
         txtNroPersona= (TextView) rootView.findViewById(R.id.txt_nro_persona);
         TextView txtNombre= (TextView) rootView.findViewById(R.id.txt_nombre);
         TextView txtApellido= (TextView) rootView.findViewById(R.id.txt_apellido);
@@ -92,31 +98,34 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
 
         btnConfirmarCantidad.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                nroCant = Integer.parseInt(String.valueOf(edtextCantPersonas.getText()));
-                if (nroCant !=0) {
-                    btnConfirmarCantidad.setVisibility(View.GONE);
-                    edtextCantPersonas.setFocusable(View.NOT_FOCUSABLE);
-                    txtNombre.setVisibility(View.VISIBLE);
-                    edtextNombre.setVisibility(View.VISIBLE);
-                    edtextNombre.setFocusableInTouchMode(true);
-                    txtApellido.setVisibility(View.VISIBLE);
-                    edtextApellido.setVisibility(View.VISIBLE);
-                    edtextApellido.setFocusableInTouchMode(true);
-                    txtSexo.setVisibility(View.VISIBLE);
-                    spinnerSexo.setVisibility(View.VISIBLE);
-                    spinnerSexo.setFocusableInTouchMode(true);
-                    txtDni.setVisibility(View.VISIBLE);
-                    edtextNroDni.setVisibility(View.VISIBLE);
-                    edtextNroDni.setFocusableInTouchMode(true);
-                    txtFechaNacimiento.setVisibility(View.VISIBLE);
-                    edtextFechaNacimiento.setVisibility(View.VISIBLE);
-                    btnAgregarPersona.setVisibility(View.VISIBLE);
+                if (!(String.valueOf(edtextCantPersonas.getText())).equals("")) {
+                    nroCant = Integer.parseInt(String.valueOf(edtextCantPersonas.getText()));
+                    if (nroCant !=0) {
+                        personaAgregadaList.clear();
+                        btnConfirmarCantidad.setVisibility(View.GONE);
+                        txtTituloAgregarPersona.setVisibility(View.GONE);
+                        edtextCantPersonas.setVisibility(View.GONE);
+                        txtNombre.setVisibility(View.VISIBLE);
+                        edtextNombre.setVisibility(View.VISIBLE);
+                        edtextNombre.setFocusableInTouchMode(true);
+                        txtApellido.setVisibility(View.VISIBLE);
+                        edtextApellido.setVisibility(View.VISIBLE);
+                        edtextApellido.setFocusableInTouchMode(true);
+                        txtSexo.setVisibility(View.VISIBLE);
+                        spinnerSexo.setVisibility(View.VISIBLE);
+                        spinnerSexo.setFocusableInTouchMode(true);
+                        txtDni.setVisibility(View.VISIBLE);
+                        edtextNroDni.setVisibility(View.VISIBLE);
+                        edtextNroDni.setFocusableInTouchMode(true);
+                        txtFechaNacimiento.setVisibility(View.VISIBLE);
+                        edtextFechaNacimiento.setVisibility(View.VISIBLE);
+                        btnAgregarPersona.setVisibility(View.VISIBLE);
 
-                    nroPersona = 1;
-                    txtNroPersona.setText("Pesona "+nroPersona+" de "+ nroCant +".");
-                }
-                else {
-
+                        nroPersona = 1;
+                        txtNroPersona.setText("Pesona "+nroPersona+" de "+ nroCant +".");
+                    }
+                } else {
+                    Toast.makeText(getContext(),"Debe ingresar un número",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -137,12 +146,28 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
                     edtextNroDni.setText("");
                     edtextFechaNacimiento.setText("");
                     nroPersona++;
+                    edtextNombre.requestFocus();
                     txtNroPersona.setText("Pesona "+nroPersona+" de "+ nroCant +".");
                 }else if (nroPersona == nroCant){
-                    txtNroPersona.setText("Pesona "+nroPersona+" de "+ nroCant +".");
-                    btnAgregarPersona.setVisibility(View.INVISIBLE);
+                    txtNroPersona.setText("Si los datos son correctos, seleccione CONTINUAR.");
+                    btnConfirmarCantidad.setVisibility(View.GONE);
+                    edtextCantPersonas.setVisibility(View.GONE);
+                    txtNombre.setVisibility(View.GONE);
+                    edtextNombre.setVisibility(View.GONE);
+                    txtApellido.setVisibility(View.GONE);
+                    edtextApellido.setVisibility(View.GONE);
+                    txtSexo.setVisibility(View.GONE);
+                    spinnerSexo.setVisibility(View.GONE);
+                    txtDni.setVisibility(View.GONE);
+                    edtextNroDni.setVisibility(View.GONE);
+                    txtFechaNacimiento.setVisibility(View.GONE);
+                    edtextFechaNacimiento.setVisibility(View.GONE);
+                    btnAgregarPersona.setVisibility(View.GONE);
                     btnContinuarAgregar.setVisibility(View.VISIBLE);
+                    btnContinuarAgregar.requestFocus();
+                    ConfirmarDatosPersonas(personaAgregadaList);
                 }
+
             }
         });
         btnContinuarAgregar.setOnClickListener(new View.OnClickListener() {
@@ -153,9 +178,14 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
         });
         btnVolverAgregar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                stepView.done(false); //marcado como no hecho
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentDatosVivienda.newInstance(16,FragmentDatosVivienda.respuestasVivienda)).commit();
-                //Toast.makeText(getContext(),"Volver",Toast.LENGTH_SHORT).show();
+
+                if (nroPersona==0) {
+                    stepView.go(0,false);
+                    stepView.done(false); //marcado como no hecho
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos, FragmentDatosVivienda.newInstance(16, FragmentDatosVivienda.respuestasVivienda)).commit();
+                }else {
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentAgregarPersona.newInstance()).commit();
+                }
             }
         });
 
@@ -164,13 +194,26 @@ public class FragmentAgregarPersona extends Fragment implements View.OnClickList
         return rootView;
     }
 
+    public void ConfirmarDatosPersonas(List<PersonaAgregada>personaAgregadaList){
+        recyclerView = rootView.findViewById(R.id.recycler);
+
+        recyclerView.setVisibility(View.VISIBLE);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(adapter);
+
+        adapter = new PersonaAgregadaAdapter(getActivity(),personaAgregadaList);
+        recyclerView.setAdapter(adapter);
+    }
+
 //// spinner para seleccionar el sexo
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         // Se seleccionó un elemento. Puede recuperar el elemento seleccionado usando
         // parent.getItemAtPosition(pos)
         sexo = String.valueOf((parent.getItemAtPosition(pos)));
-        Toast.makeText(getContext(),"seleccionaste"+parent.getItemAtPosition(pos) ,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),"seleccionaste"+parent.getItemAtPosition(pos) ,Toast.LENGTH_SHORT).show();
     }
 
     @Override

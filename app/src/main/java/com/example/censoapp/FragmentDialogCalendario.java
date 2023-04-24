@@ -2,6 +2,7 @@ package com.example.censoapp;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.widget.DatePicker;
 
@@ -25,7 +26,7 @@ public class FragmentDialogCalendario extends DialogFragment {
         int month = calendario.get(Calendar.MONTH);
         int dayOfMonth = calendario.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog dialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog dialog = new DatePickerDialog(getActivity(),android.R.style.Theme_Holo_Light_Dialog_NoActionBar, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
                 fechaSeleccionada = LocalDate.of(year,(month + 1),dayOfMonth);
@@ -39,6 +40,7 @@ public class FragmentDialogCalendario extends DialogFragment {
         calendario.set(year,month,dayOfMonth);
         dialog.getDatePicker().setMaxDate(calendario.getTimeInMillis());
 
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.show();
         return dialog;
     }

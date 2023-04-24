@@ -102,6 +102,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:layout_marginHorizontal="20dp"
+                    android:clickable="true"
                     android:visibility="gone"/>
                 <TextView
                     android:id="@+id/txt_dni"
@@ -142,6 +143,11 @@
                     android:layout_marginHorizontal="20dp"
                     android:visibility="gone"/>
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

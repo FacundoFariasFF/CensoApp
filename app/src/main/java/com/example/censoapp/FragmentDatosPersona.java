@@ -90,6 +90,7 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
     int cantEditTextTexto = 0;
     int cantEditTextNro = 0;
     int cantEditTextFecha = 0;
+    Boolean respuestaVacia = true;
     EditText edtextFechaPersona;
     RadioGroup rgPersona;
     TextView txtTitulo;
@@ -179,31 +180,34 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
         btnContinuarDatosPersona.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ObtenerRespuesta();
-                //aca validar si hay resouesta vacia como esta en FragmentDatosVivienda
-                pasosAux = (ArrayList<Integer>)pasos.clone();
-                if(indicePaso+2<(pasos.size()-1)){
-                    ControlPasos();
-                    GuardarRespuesta();
-                    getActivity().getSupportFragmentManager().beginTransaction().replace
-                            (R.id.fragment_container_view_ingresar_datos,FragmentDatosPersona.newInstance
-                                    (nroPersona,indicePaso+1,pasos,pasosAux,respuestasPersona)).commit();
-                }else {
-                    GenerarListaPersona();
-                    if (nroPersona<personaAgregadaList.size()-1){
-                        ArrayList<Integer> pasos = new ArrayList<>();
-                        ArrayList<Integer> pasosAux = new ArrayList<>();
-                        for (int i=0; i<=31; i++){ //31 son las preguntas sobre la personas/(los pasos de persona)
-                            pasos.add(i,i);
-                        }
-                        pasosAux = pasos;
-                        LimpiarRespuestas();
+                if (respuestaVacia ==false) {
+                    pasosAux = (ArrayList<Integer>) pasos.clone();
+                    if (indicePaso + 2 < (pasos.size() - 1)) {
+                        ControlPasos();
+                        GuardarRespuesta();
                         getActivity().getSupportFragmentManager().beginTransaction().replace
-                                (R.id.fragment_container_view_ingresar_datos,FragmentDatosPersona.newInstance
-                                        (nroPersona+1,1,pasos,pasosAux,respuestasPersona)).commit();
-                    }else {
-                        stepView.done(true); //marca el step como hecho
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view, FragmentIngresarDatos.newInstance(4)).commit();
+                                (R.id.fragment_container_view_ingresar_datos, FragmentDatosPersona.newInstance
+                                        (nroPersona, indicePaso + 1, pasos, pasosAux, respuestasPersona)).commit();
+                    } else {
+                        GenerarListaPersona();
+                        if (nroPersona < personaAgregadaList.size() - 1) {
+                            ArrayList<Integer> pasos = new ArrayList<>();
+                            ArrayList<Integer> pasosAux = new ArrayList<>();
+                            for (int i = 0; i <= 31; i++) { //31 son las preguntas sobre la personas/(los pasos de persona)
+                                pasos.add(i, i);
+                            }
+                            pasosAux = pasos;
+                            LimpiarRespuestas();
+                            getActivity().getSupportFragmentManager().beginTransaction().replace
+                                    (R.id.fragment_container_view_ingresar_datos, FragmentDatosPersona.newInstance
+                                            (nroPersona + 1, 1, pasos, pasosAux, respuestasPersona)).commit();
+                        } else {
+                            stepView.done(true); //marca el step como hecho
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view, FragmentIngresarDatos.newInstance(4)).commit();
+                        }
                     }
+                } else {
+                    Toast.makeText(getContext(),"Debe seleccionar una opción",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -214,13 +218,13 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
                     getActivity().getSupportFragmentManager().beginTransaction().replace
                             (R.id.fragment_container_view_ingresar_datos,FragmentDatosPersona.newInstance(nroPersona,indicePaso-1,pasos,pasosAux,respuestasPersona)).commit();
                 } else{
+                    stepView.go(1,false);
                     stepView.done(false); //marcado como no hecho
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view_ingresar_datos,FragmentAgregarPersona.newInstance()).commit();
                 }
             }
         });
         /////
-
 
 
 
@@ -447,8 +451,11 @@ public class FragmentDatosPersona extends Fragment implements View.OnClickListen
             if (!edtextFechaPersona.getText().equals("")) {
                 seleccionado.add(String.valueOf(edtextFechaPersona.getText()));
             }
+            respuestaVacia = false;
         }else {
-            //seleccionado ya viene con datos del onCheckedChanged(RadioGroup group, int checkedId)
+            if (seleccionado.size()!=0){
+                respuestaVacia = false;
+            }
         }
     }
     public void GuardarRespuesta(){
